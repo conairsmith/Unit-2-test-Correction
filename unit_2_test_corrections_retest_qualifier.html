@@ -1,0 +1,2499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Unit 2 Test Corrections & Retest Qualifier | Pre-AP Chemistry</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: #f8fafc;
+      color: #0f172a;
+    }
+    .mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+    .step-locked {
+      opacity: 0.5;
+      pointer-events: none;
+      filter: grayscale(35%);
+    }
+    .step-unlocked {
+      opacity: 1;
+      pointer-events: auto;
+      transition: all 0.3s ease;
+    }
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+    /* Print Styles for Retest Qualification Ticket */
+    @media print {
+      body {
+        background: #ffffff !important;
+        color: #000000 !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .print-only {
+        display: block !important;
+      }
+      .print-container {
+        box-shadow: none !important;
+        border: 2px solid #0f172a !important;
+        padding: 16px !important;
+        margin: 0 !important;
+        max-width: 100% !important;
+        width: 100% !important;
+      }
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col">
+
+  <!-- Top Navigation Bar -->
+  <header class="bg-slate-900 text-white sticky top-0 z-40 shadow-md no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 flex flex-wrap items-center justify-between gap-3">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-indigo-500 flex items-center justify-center font-extrabold text-lg shadow-inner">
+          U2
+        </div>
+        <div>
+          <h1 class="font-bold text-base sm:text-lg leading-tight">Unit 2: Bonding, Structure, & Interactions</h1>
+          <p class="text-xs text-slate-300">Interactive Test Corrections & Retest Qualifier • Pre-AP Chemistry</p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-2 sm:gap-3">
+        <!-- Reference Sheet Toggle -->
+        <button onclick="toggleReferenceModal()" class="px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-xs sm:text-sm font-semibold flex items-center gap-2 transition">
+          <svg class="w-4 h-4 text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
+          </svg>
+          <span>VSEPR & IMF Reference Sheet</span>
+        </button>
+
+        <!-- Diagnostic Setup Button -->
+        <button id="navSetupBtn" onclick="switchView('setup')" class="hidden px-3 py-2 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-600 text-xs sm:text-sm font-semibold transition">
+          Edit Missed Questions
+        </button>
+
+        <!-- Retest Ticket Button -->
+        <button id="navTicketBtn" onclick="switchView('ticket')" class="hidden px-3 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-500 text-white text-xs sm:text-sm font-bold flex items-center gap-1.5 shadow transition">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+          <span id="navTicketBtnText">Retest Ticket</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Global Progress Bar (Visible in Workspace) -->
+    <div id="globalProgressBarContainer" class="hidden bg-slate-800 border-t border-slate-700 px-4 py-2">
+      <div class="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-2 text-xs">
+        <div class="flex items-center gap-2">
+          <span class="text-slate-300 font-medium">Student:</span>
+          <span id="headerStudentName" class="font-bold text-white"></span>
+          <span id="headerStudentSeed" class="mono text-[11px] px-2 py-0.5 rounded bg-indigo-950 text-indigo-300 border border-indigo-700"></span>
+        </div>
+        <div class="flex items-center gap-3 flex-1 max-w-md">
+          <div class="w-full bg-slate-700 h-2.5 rounded-full overflow-hidden">
+            <div id="globalProgressFill" class="bg-emerald-500 h-full transition-all duration-300" style="width: 0%"></div>
+          </div>
+          <span id="globalProgressText" class="font-bold text-emerald-400 whitespace-nowrap">0 / 0 Corrected</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Toast Notification Banner -->
+  <div id="toastBanner" class="fixed bottom-5 right-5 z-50 hidden max-w-sm bg-slate-900 text-white px-4 py-3 rounded-xl shadow-2xl border border-slate-700 flex items-center gap-3 no-print">
+    <span id="toastIcon" class="text-emerald-400 font-bold text-lg">✓</span>
+    <p id="toastMessage" class="text-sm font-medium"></p>
+  </div>
+
+  <!-- Main Content Container -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+
+    <!-- ==================== VIEW 1: ONBOARDING & DIAGNOSTIC FILTER ==================== -->
+    <section id="viewSetup" class="space-y-6 no-print">
+      <!-- Welcome Hero Card -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8">
+        <div class="max-w-3xl">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 border border-indigo-200 mb-3">
+            Step 1: Personal Diagnostic & Anti-Copy Setup
+          </span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
+            Only Rework the Questions You Missed
+          </h2>
+          <p class="mt-2 text-sm sm:text-base text-slate-600 leading-relaxed">
+            Look at your graded paper test. Enter your name below and select <strong>only the questions where you lost points</strong>. Questions you already got 100% correct on paper are automatically marked as mastered!
+          </p>
+          <div class="mt-4 p-3.5 rounded-xl bg-amber-50 border border-amber-200 text-xs sm:text-sm text-amber-900 flex items-start gap-3">
+            <span class="font-bold text-amber-600 text-base">⚡</span>
+            <div>
+              <strong>Anti-Copy Math Shield Active:</strong> When you enter your name, the app generates a unique set of numbers for the calculation questions (<strong>Q3b</strong> and <strong>Q3d</strong>) and requires step-by-step reasoning plus a short reflection on your original paper test mistake to unlock your <strong>Retest Qualification Ticket</strong>.
+            </div>
+          </div>
+        </div>
+
+        <!-- Student Info Inputs -->
+        <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-slate-100">
+          <div>
+            <label for="studentNameInput" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+              Your Full Name *
+            </label>
+            <input
+              id="studentNameInput"
+              type="text"
+              placeholder=""
+              oninput="updateSeedPreview()"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100 outline-none text-sm font-medium"
+            />
+          </div>
+          <div>
+            <label for="studentSectionInput" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+              Class Section
+            </label>
+            <select
+              id="studentSectionInput"
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100 outline-none text-sm font-medium bg-white"
+            >
+              <option value="G9 Pre-AP Chemistry">G9 Pre-AP Chemistry</option>
+              <option value="G10 Pre-AP Chemistry">G10 Pre-AP Chemistry</option>
+            </select>
+          </div>
+          <div>
+            <label for="paperScoreInput" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+              Original Paper Score (Out of 40)
+            </label>
+            <input
+              id="paperScoreInput"
+              type="number"
+              min="0"
+              max="40"
+              step="0.5"
+              placeholder=""
+              class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100 outline-none text-sm font-medium"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Question Selection Grid -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8">
+        <div class="flex flex-wrap items-center justify-between gap-4 pb-5 border-b border-slate-200">
+          <div>
+            <h3 class="text-lg font-bold text-slate-900">Select the Questions You Need to Correct</h3>
+            <p class="text-xs sm:text-sm text-slate-500">Click any question card where you lost full or partial points on your paper test.</p>
+          </div>
+          <div class="flex flex-wrap items-center gap-2">
+            <button onclick="selectPreset('traps')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-indigo-50 text-indigo-700 hover:bg-indigo-100 border border-indigo-200 transition">
+              Select Common Class Traps (Q2, Q5, Q7a)
+            </button>
+            <button onclick="selectPreset('all')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-700 hover:bg-slate-200 border border-slate-300 transition">
+              Select All Questions
+            </button>
+            <button onclick="selectPreset('none')" class="px-3 py-1.5 rounded-lg text-xs font-bold bg-slate-100 text-slate-600 hover:bg-slate-200 border border-slate-300 transition">
+              Clear Selection
+            </button>
+          </div>
+        </div>
+
+        <!-- Part 1 Grid -->
+        <div class="mt-6">
+          <h4 class="text-xs font-extrabold uppercase tracking-wider text-indigo-600 mb-3">
+            Part 1: Properties of Limonene (22 Points Total)
+          </h4>
+          <div id="part1Grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3"></div>
+        </div>
+
+        <!-- Part 2 Grid -->
+        <div class="mt-8">
+          <h4 class="text-xs font-extrabold uppercase tracking-wider text-emerald-600 mb-3">
+            Part 2: Unit 2 Concepts — Separation, VSEPR, Isomers, & IMFs (18 Points Total)
+          </h4>
+          <div id="part2Grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3"></div>
+        </div>
+
+        <!-- Start Button Footer -->
+        <div class="mt-8 pt-6 border-t border-slate-200 flex flex-wrap items-center justify-between gap-4">
+          <div id="selectionSummaryText" class="text-sm font-semibold text-slate-700">
+            0 questions selected for correction.
+          </div>
+          <button
+            onclick="startCorrections()"
+            class="px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm sm:text-base shadow-md hover:shadow-lg flex items-center gap-2 transition"
+          >
+            <span>Start Step-by-Step Corrections</span>
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 2: STEP-BY-STEP CORRECTION WORKSPACE ==================== -->
+    <section id="viewWorkspace" class="hidden no-print">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+
+        <!-- Left Sidebar: Question Navigator -->
+        <aside class="lg:col-span-4 xl:col-span-3 bg-white rounded-2xl shadow-sm border border-slate-200 p-4 lg:sticky lg:top-28">
+          <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-100">
+            <h3 class="font-bold text-sm text-slate-900">Your Correction Queue</h3>
+            <button onclick="switchView('setup')" class="text-xs font-semibold text-indigo-600 hover:text-indigo-800">
+              + Add/Edit
+            </button>
+          </div>
+          <div id="sidebarQuestionList" class="space-y-1.5 max-h-[60vh] overflow-y-auto pr-1"></div>
+
+          <div class="mt-4 pt-4 border-t border-slate-100">
+            <button
+              onclick="switchView('ticket')"
+              class="w-full py-2.5 px-4 rounded-xl font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition bg-emerald-600 hover:bg-emerald-700 text-white shadow"
+            >
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+              </svg>
+              <span>View Retest Qualification Ticket</span>
+            </button>
+          </div>
+        </aside>
+
+        <!-- Right Main Area: Active Question Step-by-Step Card -->
+        <div class="lg:col-span-8 xl:col-span-9 space-y-6">
+          <div id="activeQuestionContainer" class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6 sm:p-8"></div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== VIEW 3: RETEST QUALIFICATION TICKET ==================== -->
+    <section id="viewTicket" class="hidden">
+      <div class="mb-6 flex flex-wrap items-center justify-between gap-3 no-print">
+        <button onclick="switchView('workspace')" class="px-4 py-2 rounded-xl bg-white border border-slate-300 hover:bg-slate-50 text-slate-700 font-semibold text-sm flex items-center gap-2">
+          ← Back to Questions
+        </button>
+        <div class="flex flex-wrap items-center gap-3">
+          <button id="submitDigitalBtn" onclick="submitTicketDigitally()" class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-sm flex items-center gap-2 shadow-md transition">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+            </svg>
+            <span id="submitDigitalBtnText">🚀 Submit to Teacher (Google Sheet)</span>
+          </button>
+          <button onclick="promptForScriptUrl()" title="Configure Google Sheet Webhook URL" class="px-3 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 text-xs font-semibold flex items-center gap-1.5 transition">
+            <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+            <span>Sheet URL</span>
+          </button>
+          <button onclick="copyTicketSummary()" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-semibold text-sm flex items-center gap-2 shadow">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/>
+            </svg>
+            <span>Copy Summary Text</span>
+          </button>
+          <button onclick="window.print()" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm flex items-center gap-2 shadow-md">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+            </svg>
+            <span>Print / Save PDF Ticket</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Printable Ticket Card -->
+      <div id="printableTicketCard" class="print-container bg-white rounded-2xl shadow-md border-2 border-slate-800 p-6 sm:p-8 space-y-6">
+        <!-- Populated dynamically by renderTicketView() -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== MODAL: GOOGLE SHEET CONFIGURATION ==================== -->
+  <div id="scriptUrlModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4 no-print">
+    <div class="bg-white rounded-2xl max-w-xl w-full shadow-2xl border border-slate-200 p-6 sm:p-8 space-y-5">
+      <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+        <div class="flex items-center gap-2">
+          <span class="text-xl">📊</span>
+          <h2 class="text-lg font-extrabold text-slate-900">Google Sheet Submission Setup</h2>
+        </div>
+        <button onclick="toggleScriptUrlModal()" class="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold">
+          ✕
+        </button>
+      </div>
+
+      <div class="text-xs text-slate-600 space-y-2">
+        <p>Paste your <strong>Google Apps Script Web App URL</strong> below. Submissions from students will automatically append to the <strong>Retest Submissions</strong> tab in your Google Sheet.</p>
+        <div class="p-3 bg-indigo-50 border border-indigo-200 rounded-xl">
+          <p class="font-bold text-indigo-900">How to get your Web App URL (1-minute setup):</p>
+          <ol class="list-decimal list-inside space-y-1 mt-1 text-indigo-800">
+            <li>In your Google Sheet, click <strong>Extensions > Apps Script</strong>.</li>
+            <li>Paste the receiver script provided by your assistant.</li>
+            <li>Click <strong>Deploy > New deployment</strong> → Type: <strong>Web app</strong>.</li>
+            <li>Set <em>Execute as: Me</em> and <em>Who has access: Anyone</em>.</li>
+            <li>Click Deploy and copy the Web App URL (ends with <code class="bg-white px-1 rounded">/exec</code>).</li>
+          </ol>
+        </div>
+      </div>
+
+      <div>
+        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1">
+          Google Apps Script Web App URL:
+        </label>
+        <input
+          id="scriptUrlInput"
+          type="url"
+          placeholder="https://script.google.com/macros/s/.../exec"
+          class="w-full p-3 rounded-xl border border-slate-300 text-xs sm:text-sm font-mono outline-none focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100"
+        />
+      </div>
+
+      <div class="flex items-center justify-end gap-3 pt-2 border-t border-slate-200">
+        <button onclick="toggleScriptUrlModal()" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100">
+          Cancel
+        </button>
+        <button onclick="saveScriptUrlFromModal()" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-xs shadow">
+          Save Sheet URL
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: VSEPR & IMF QUICK REFERENCE SHEET ==================== -->
+  <div id="referenceModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4 no-print">
+    <div class="bg-white rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-y-auto shadow-2xl border border-slate-200 p-6 sm:p-8 space-y-6">
+      <div class="flex items-center justify-between border-b border-slate-200 pb-4">
+        <div>
+          <h2 class="text-xl font-extrabold text-slate-900">Unit 2 Quick Reference Guide: VSEPR Shapes & IMFs</h2>
+          <p class="text-xs text-slate-500">Use this reference chart to help determine 3D molecular geometry, polarity, and intermolecular forces.</p>
+        </div>
+        <button onclick="toggleReferenceModal()" class="p-2 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold">
+          ✕
+        </button>
+      </div>
+
+      <!-- VSEPR Table -->
+      <div>
+        <h3 class="text-sm font-extrabold uppercase tracking-wider text-indigo-600 mb-2">1. VSEPR 3D Molecular Geometry Chart</h3>
+        <div class="overflow-x-auto border border-slate-200 rounded-xl">
+          <table class="w-full text-left text-xs sm:text-sm">
+            <thead class="bg-slate-100 text-slate-800 font-bold border-b border-slate-200">
+              <tr>
+                <th class="p-3">Total Electron Domains (around Central Atom)</th>
+                <th class="p-3">Bonding Domains (Attached Atoms)</th>
+                <th class="p-3">Lone Pairs on Central Atom</th>
+                <th class="p-3">3D VSEPR Shape</th>
+                <th class="p-3">Typical Polarity Rule</th>
+              </tr>
+            </thead>
+            <tbody class="divide-y divide-slate-200">
+              <tr>
+                <td class="p-3 font-bold">2</td>
+                <td class="p-3">2</td>
+                <td class="p-3">0</td>
+                <td class="p-3 font-semibold text-indigo-700">Linear</td>
+                <td class="p-3">Nonpolar if outer atoms are identical (e.g., $\text{CO}_2$); Polar if different.</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold">3</td>
+                <td class="p-3">3</td>
+                <td class="p-3">0</td>
+                <td class="p-3 font-semibold text-indigo-700">Trigonal Planar</td>
+                <td class="p-3">Nonpolar if all 3 outer atoms are identical (BF<sub>3</sub>); <strong>Polar</strong> if outer atoms differ (like CH<sub>2</sub>O!).</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold">4</td>
+                <td class="p-3">4</td>
+                <td class="p-3">0</td>
+                <td class="p-3 font-semibold text-indigo-700">Tetrahedral</td>
+                <td class="p-3">Nonpolar if all 4 outer atoms are identical (CH<sub>4</sub>); Polar if outer atoms differ.</td>
+              </tr>
+              <tr class="bg-indigo-50/50">
+                <td class="p-3 font-bold">4</td>
+                <td class="p-3">3</td>
+                <td class="p-3 font-bold text-rose-600">1 Lone Pair</td>
+                <td class="p-3 font-semibold text-indigo-700">Trigonal Pyramidal</td>
+                <td class="p-3"><strong>Always Polar</strong> due to the lone pair pushing bonds down asymmetrically (e.g., PCl<sub>3</sub>, NH<sub>3</sub>).</td>
+              </tr>
+              <tr>
+                <td class="p-3 font-bold">4</td>
+                <td class="p-3">2</td>
+                <td class="p-3 font-bold text-rose-600">2 Lone Pairs</td>
+                <td class="p-3 font-semibold text-indigo-700">Bent</td>
+                <td class="p-3"><strong>Always Polar</strong> due to asymmetrical lone pairs (e.g., H<sub>2</sub>O).</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- IMF Hierarchy -->
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+          <h4 class="text-xs font-extrabold uppercase tracking-wider text-emerald-700">2. Intermolecular Forces (Strongest → Weakest)</h4>
+          <ul class="text-xs sm:text-sm space-y-2 text-slate-700">
+            <li><strong>1. Ion-Dipole Attraction (Strongest):</strong> Between full ionic charges (Ca<sup>2+</sup>, Cl<sup>-</sup>) and partial charges (&delta;<sup>+</sup>, &delta;<sup>-</sup>) of polar water.</li>
+            <li><strong>2. Hydrogen Bonding:</strong> Special strong dipole attraction ONLY when H is directly covalently bonded to <strong>N, O, or F</strong> (e.g., Ethanol -OH, water H<sub>2</sub>O).</li>
+            <li><strong>3. Dipole-Dipole Forces:</strong> Between polar molecules that have permanent partial charges (&delta;<sup>+</sup>, &delta;<sup>-</sup>) without N-H, O-H, or F-H bonds.</li>
+            <li><strong>4. London Dispersion Forces (LDFs):</strong> Present in <em>all</em> molecules, and the <strong>ONLY</strong> IMF in nonpolar molecules (like hydrocarbons made only of C and H). <strong>More total electrons = stronger LDFs = higher boiling point!</strong></li>
+          </ul>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+          <h4 class="text-xs font-extrabold uppercase tracking-wider text-amber-700">3. Key Unit 2 Rules</h4>
+          <ul class="text-xs sm:text-sm space-y-2 text-slate-700">
+            <li><strong>"Like Dissolves Like":</strong> Polar & ionic substances dissolve in polar solvents (water). Nonpolar substances dissolve in nonpolar solvents (oil, limonene, isoprene).</li>
+            <li><strong>Distillation vs. Electrolysis:</strong> Distillation uses heat to break <em>intermolecular forces (IMFs)</em> between molecules (physical change). Electrolysis uses electricity to break <em>intramolecular covalent bonds</em> inside molecules (chemical change).</li>
+            <li><strong>Chromatography (R<sub>f</sub>):</strong> With polar water as the mobile phase, a higher R<sub>f</sub> means the dye traveled farther with the water, so the dye is <strong>more polar</strong>.</li>
+          </ul>
+        </div>
+
+        <div class="p-4 rounded-xl bg-slate-50 border border-slate-200 space-y-2">
+          <h4 class="text-xs font-extrabold uppercase tracking-wider text-amber-700">3. Key Unit 2 Rules</h4>
+          <ul class="text-xs sm:text-sm space-y-2 text-slate-700">
+            <li><strong>"Like Dissolves Like":</strong> Polar & ionic substances dissolve in polar solvents (water). Nonpolar substances dissolve in nonpolar solvents (oil, limonene, isoprene).</li>
+            <li><strong>Distillation vs. Electrolysis:</strong> Distillation uses heat to break <em>intermolecular forces (IMFs)</em> between molecules (physical change). Electrolysis uses electricity to break <em>intramolecular covalent bonds</em> inside molecules (chemical change).</li>
+            <li><strong>Chromatography ($R_f$):</strong> With polar water as the mobile phase, a higher $R_f$ means the dye traveled farther with the water, so the dye is <strong>more polar</strong>.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== APPLICATION JAVASCRIPT ==================== -->
+  <script>
+    // =========================================================================
+    // 1. MASTER QUESTION METADATA & STATE
+    // =========================================================================
+    const QUESTIONS_META = [
+      { id: 'Q1', part: 1, title: 'Q1: Pure Limonene Classification', pts: '3 pts', trap: false, desc: 'Atom, Compound, Element, Molecule, or Mixture + Justification' },
+      { id: 'Q2a', part: 1, title: 'Q2(a): Balloon Pop Claims', pts: '4 pts', trap: true, desc: 'Angel, Kayla, vs. Jacob — Nonpolar dissolution vs. repulsion/force' },
+      { id: 'Q2b', part: 1, title: 'Q2(b): Isoprene IMFs', pts: '2 pts', trap: true, desc: 'Identifying intermolecular forces in nonpolar C5H8' },
+      { id: 'Q2c', part: 1, title: 'Q2(c): Boiling Point Comparison', pts: '3 pts', trap: false, desc: 'Limonene vs. Isoprene: Electron count & LDF strength' },
+      { id: 'Q3a', part: 1, title: 'Q3(a): Cold Extraction Heating', pts: '1 pt', trap: false, desc: 'Why heating peels to 43–49°C weakens IMFs' },
+      { id: 'Q3b', part: 1, title: 'Q3(b): Distillation Peel Math', pts: '3 pts', trap: true, desc: 'Randomized mg-to-g extraction ratio & oranges calculation' },
+      { id: 'Q3c', part: 1, title: 'Q3(c): Density & Solubility Diagrams', pts: '2 pts', trap: false, desc: 'Interactive particle builder for Ethanol/Limonene & Water/Limonene' },
+      { id: 'Q3d', part: 1, title: 'Q3(d): Gas Partial Pressures', pts: '4 pts', trap: true, desc: 'Randomized Dalton’s Law total pressure & ethanol partial pressure' },
+      { id: 'Q4a', part: 2, title: 'Q4(a): Distillation vs. Electrolysis', pts: '2 pts', trap: false, desc: 'Breaking IMFs (physical) vs. breaking covalent bonds (chemical)' },
+      { id: 'Q4b', part: 2, title: 'Q4(b): Chromatography & Rf Values', pts: '2 pts', trap: false, desc: 'Using water-based chromatography Rf values to rank polarity' },
+      { id: 'Q5-PCl3', part: 2, title: 'Q5: PCl3 Lewis, VSEPR & Polarity', pts: '4 pts', trap: true, desc: '26 valence e-, central lone pair, Trigonal Pyramidal, Polar' },
+      { id: 'Q5-CH2O', part: 2, title: 'Q5: CH2O Lewis, VSEPR & Polarity', pts: '4 pts', trap: true, desc: '12 valence e-, C=O double bond, Trigonal Planar, Polar' },
+      { id: 'Q6a', part: 2, title: 'Q6(a): Structural Isomers Definition', pts: '1 pt', trap: false, desc: 'Same molecular formula vs. different bonding structure & properties' },
+      { id: 'Q6b', part: 2, title: 'Q6(b): Isomer Boiling Points', pts: '2 pts', trap: true, desc: 'Ethanol (O–H hydrogen bonding) vs. Dimethyl Ether' },
+      { id: 'Q7a', part: 2, title: 'Q7(a): Ca2+ and Cl- Ions in Water/Oil', pts: '1.5 pts', trap: true, desc: 'Why charged ions dissolve in polar water instead of nonpolar oil' },
+      { id: 'Q7b', part: 2, title: 'Q7(b): Surfactant Structure & Micelles', pts: '1.5 pts', trap: false, desc: 'Hydrophilic head + hydrophobic tail bridging polar water & nonpolar oil' }
+    ];
+
+    const appState = {
+      studentName: '',
+      studentSection: 'G9 Pre-AP Chemistry',
+      paperScore: '',
+      seedCode: 'CHEM-101',
+      mathSalt: 0,
+      selectedIds: ['Q2a', 'Q2b', 'Q3b', 'Q5-PCl3', 'Q5-CH2O', 'Q6b', 'Q7a'], // Default common traps pre-selected
+      activeQuestionId: null,
+      mathParams: {
+        oilGrams: 2.4,
+        peelMassPerOrange: 80,
+        n2Pressure: 0.84,
+        pressurePerParticle: 0.12
+      },
+      // Progress tracking per question: { step1: bool, step2: bool, step3: bool, reflection: string, completed: bool, studentAnswers: {} }
+      progress: {}
+    };
+
+    // Initialize progress object for all 16 questions
+    QUESTIONS_META.forEach(q => {
+      appState.progress[q.id] = {
+        step1: false,
+        step2: false,
+        step3: false,
+        reflection: '',
+        completed: false,
+        records: {}
+      };
+    });
+
+    // =========================================================================
+    // 2. SEED GENERATOR & ANTI-COPY MATH RANDOMIZER
+    // =========================================================================
+    function computeHash(str) {
+      let h = 2166136261 >>> 0;
+      const clean = (str || 'student').trim().toLowerCase();
+      for (let i = 0; i < clean.length; i++) {
+        h ^= clean.charCodeAt(i);
+        h = Math.imul(h, 16777619);
+      }
+      return h >>> 0;
+    }
+
+    function generateMathParamsFromName(name) {
+      const hash = computeHash(`${name || 'Student'}-${appState.mathSalt}`);
+      const oilOptions = [1.8, 2.4, 3.0, 3.6, 4.2];
+      const peelOptions = [75, 80, 85, 90, 95];
+      // Clean multiples of 7 for N2 partial pressure (0.56, 0.70, 0.84, 1.05, 1.26 atm)
+      const pPerParticleOptions = [0.08, 0.10, 0.12, 0.15, 0.18];
+
+      const oilGrams = oilOptions[hash % oilOptions.length];
+      const peelMassPerOrange = peelOptions[(hash >> 3) % peelOptions.length];
+      const pressurePerParticle = pPerParticleOptions[(hash >> 6) % pPerParticleOptions.length];
+      const n2Pressure = Number((7 * pressurePerParticle).toFixed(2));
+
+      const codeHex = (hash % 9000 + 1000).toString(10);
+      appState.seedCode = `U2-${codeHex}`;
+      appState.mathParams = {
+        oilGrams,
+        peelMassPerOrange,
+        n2Pressure,
+        pressurePerParticle,
+        oilMg: Math.round(oilGrams * 1000),
+        totalPeelGrams: Math.round(oilGrams * 100), // Since 150 mg oil = 15 g peel -> 10 mg oil = 1 g peel
+        exactOranges: Number(((oilGrams * 100) / peelMassPerOrange).toFixed(2)),
+        totalPressure: Number((15 * pressurePerParticle).toFixed(2)),
+        ethanolPressure: Number((4 * pressurePerParticle).toFixed(2))
+      };
+    }
+
+    function regenerateRandomMath(qId) {
+      appState.mathSalt += 1;
+      generateMathParamsFromName(appState.studentName || 'Student');
+      if (qId && appState.progress[qId]) {
+        appState.progress[qId].step1 = false;
+        appState.progress[qId].step2 = false;
+        appState.progress[qId].step3 = false;
+        appState.progress[qId].completed = false;
+      }
+      updateGlobalProgressUI();
+      renderSidebarList();
+      renderActiveQuestion();
+      showToast(`Generated new problem numbers (${appState.seedCode})!`, '🔄');
+    }
+
+    function updateSeedPreview() {
+      const nameVal = document.getElementById('studentNameInput').value.trim();
+      appState.studentName = nameVal;
+      generateMathParamsFromName(nameVal || 'Student');
+    }
+
+    function updateSeedPreview() {
+      const nameVal = document.getElementById('studentNameInput').value.trim();
+      appState.studentName = nameVal;
+      generateMathParamsFromName(nameVal || 'Preview');
+    }
+
+    // =========================================================================
+    // 3. SETUP VIEW & QUESTION SELECTION GRID
+    // =========================================================================
+    function renderSetupGrid() {
+      const part1Container = document.getElementById('part1Grid');
+      const part2Container = document.getElementById('part2Grid');
+      part1Container.innerHTML = '';
+      part2Container.innerHTML = '';
+
+      QUESTIONS_META.forEach(q => {
+        const isSelected = appState.selectedIds.includes(q.id);
+        const isDone = appState.progress[q.id].completed;
+
+        const card = document.createElement('button');
+        card.type = 'button';
+        card.onclick = () => toggleQuestionSelection(q.id);
+        card.className = `text-left p-3.5 rounded-xl border-2 transition flex flex-col justify-between gap-2 ${
+          isSelected
+            ? 'border-indigo-600 bg-indigo-50/70 shadow-xs'
+            : 'border-slate-200 bg-white hover:border-slate-300'
+        }`;
+
+        card.innerHTML = `
+          <div>
+            <div class="flex items-center justify-between gap-2">
+              <span class="text-xs font-extrabold px-2 py-0.5 rounded ${
+                isSelected ? 'bg-indigo-600 text-white' : 'bg-slate-100 text-slate-600'
+              }">${q.pts}</span>
+              ${
+                isDone
+                  ? '<span class="text-[11px] font-bold text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded-full">✓ Reworked</span>'
+                  : isSelected
+                  ? '<span class="text-[11px] font-bold text-indigo-700">Needs Correction</span>'
+                  : '<span class="text-[11px] font-medium text-slate-400">Mastered on Paper</span>'
+              }
+            </div>
+            <h5 class="font-bold text-sm text-slate-900 mt-2">${q.title}</h5>
+            <p class="text-xs text-slate-500 mt-1 line-clamp-2">${q.desc}</p>
+          </div>
+          ${
+            q.trap
+              ? '<div class="text-[10px] font-bold text-amber-700 bg-amber-100/80 px-2 py-0.5 rounded self-start">★ Common Class Trap</div>'
+              : ''
+          }
+        `;
+
+        if (q.part === 1) {
+          part1Container.appendChild(card);
+        } else {
+          part2Container.appendChild(card);
+        }
+      });
+
+      const count = appState.selectedIds.length;
+      document.getElementById('selectionSummaryText').textContent =
+        count === 0
+          ? '0 questions selected (Perfect 40/40 score mode — you can still generate a ticket or practice any question).'
+          : `${count} question${count === 1 ? '' : 's'} selected for step-by-step correction.`;
+    }
+
+    function toggleQuestionSelection(qId) {
+      const idx = appState.selectedIds.indexOf(qId);
+      if (idx > -1) {
+        appState.selectedIds.splice(idx, 1);
+      } else {
+        // Keep canonical order
+        appState.selectedIds.push(qId);
+        appState.selectedIds.sort(
+          (a, b) => QUESTIONS_META.findIndex(x => x.id === a) - QUESTIONS_META.findIndex(x => x.id === b)
+        );
+      }
+      renderSetupGrid();
+    }
+
+    function selectPreset(mode) {
+      if (mode === 'traps') {
+        appState.selectedIds = QUESTIONS_META.filter(q => q.trap).map(q => q.id);
+      } else if (mode === 'all') {
+        appState.selectedIds = QUESTIONS_META.map(q => q.id);
+      } else {
+        appState.selectedIds = [];
+      }
+      renderSetupGrid();
+    }
+
+    function startCorrections() {
+      const nameInput = document.getElementById('studentNameInput').value.trim();
+      if (!nameInput) {
+        showToast('Please enter your Full Name before starting.', '⚠️');
+        document.getElementById('studentNameInput').focus();
+        return;
+      }
+      appState.studentName = nameInput;
+      appState.studentSection = document.getElementById('studentSectionInput').value;
+      appState.paperScore = document.getElementById('paperScoreInput').value.trim();
+      generateMathParamsFromName(nameInput);
+
+      if (appState.selectedIds.length === 0) {
+        showToast('No missed questions selected! Opening your Retest/Mastery Ticket.', '🎉');
+        switchView('ticket');
+        return;
+      }
+
+      if (!appState.activeQuestionId || !appState.selectedIds.includes(appState.activeQuestionId)) {
+        appState.activeQuestionId = appState.selectedIds[0];
+      }
+
+      switchView('workspace');
+    }
+
+    // =========================================================================
+    // 4. VIEW NAVIGATION & PROGRESS BAR
+    // =========================================================================
+    function switchView(viewName) {
+      const viewSetup = document.getElementById('viewSetup');
+      const viewWorkspace = document.getElementById('viewWorkspace');
+      const viewTicket = document.getElementById('viewTicket');
+      const navSetupBtn = document.getElementById('navSetupBtn');
+      const navTicketBtn = document.getElementById('navTicketBtn');
+      const progressBar = document.getElementById('globalProgressBarContainer');
+
+      viewSetup.classList.add('hidden');
+      viewWorkspace.classList.add('hidden');
+      viewTicket.classList.add('hidden');
+
+      if (viewName === 'setup') {
+        viewSetup.classList.remove('hidden');
+        navSetupBtn.classList.add('hidden');
+        progressBar.classList.add('hidden');
+        renderSetupGrid();
+      } else if (viewName === 'workspace') {
+        viewWorkspace.classList.remove('hidden');
+        navSetupBtn.classList.remove('hidden');
+        navTicketBtn.classList.remove('hidden');
+        progressBar.classList.remove('hidden');
+        updateGlobalProgressUI();
+        renderSidebarList();
+        renderActiveQuestion();
+      } else if (viewName === 'ticket') {
+        viewTicket.classList.remove('hidden');
+        navSetupBtn.classList.remove('hidden');
+        navTicketBtn.classList.remove('hidden');
+        progressBar.classList.remove('hidden');
+        updateGlobalProgressUI();
+        renderTicketView();
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function updateGlobalProgressUI() {
+      document.getElementById('headerStudentName').textContent = `${appState.studentName} (${appState.studentSection})`;
+      document.getElementById('headerStudentSeed').textContent = `Math ID: ${appState.seedCode}`;
+
+      const total = appState.selectedIds.length;
+      const done = appState.selectedIds.filter(id => appState.progress[id].completed).length;
+      const pct = total === 0 ? 100 : Math.round((done / total) * 100);
+
+      document.getElementById('globalProgressFill').style.width = `${pct}%`;
+      document.getElementById('globalProgressText').textContent = `${done} / ${total} Corrected (${pct}%)`;
+      document.getElementById('navTicketBtnText').textContent =
+        done === total && total > 0 ? '★ Retest Ticket Ready!' : `Retest Ticket (${done}/${total})`;
+    }
+
+    function renderSidebarList() {
+      const list = document.getElementById('sidebarQuestionList');
+      list.innerHTML = '';
+
+      appState.selectedIds.forEach((id, idx) => {
+        const meta = QUESTIONS_META.find(q => q.id === id);
+        const prog = appState.progress[id];
+        const isActive = appState.activeQuestionId === id;
+
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.onclick = () => {
+          appState.activeQuestionId = id;
+          renderSidebarList();
+          renderActiveQuestion();
+        };
+
+        btn.className = `w-full text-left px-3 py-2.5 rounded-xl text-xs sm:text-sm font-semibold flex items-center justify-between gap-2 transition ${
+          isActive
+            ? 'bg-indigo-600 text-white shadow-xs'
+            : prog.completed
+            ? 'bg-emerald-50 text-emerald-900 border border-emerald-200 hover:bg-emerald-100'
+            : 'bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200'
+        }`;
+
+        btn.innerHTML = `
+          <div class="flex items-center gap-2.5 truncate">
+            <span class="w-5 h-5 rounded-full text-[11px] font-bold flex items-center justify-center shrink-0 ${
+              prog.completed
+                ? isActive ? 'bg-white text-emerald-700' : 'bg-emerald-600 text-white'
+                : isActive ? 'bg-indigo-500 text-white border border-white/40' : 'bg-slate-200 text-slate-700'
+            }">
+              ${prog.completed ? '✓' : idx + 1}
+            </span>
+            <span class="truncate">${meta.title}</span>
+          </div>
+          <span class="text-[10px] opacity-80 shrink-0">${meta.pts}</span>
+        `;
+        list.appendChild(btn);
+      });
+    }
+
+    // =========================================================================
+    // 5. SVG CHEMICAL DIAGRAMS & VISUAL HELPERS
+    // =========================================================================
+    function getLimoneneSVG() {
+      return `
+        <svg viewBox="0 0 220 230" class="w-44 h-44 mx-auto">
+          <g stroke="#1e293b" stroke-width="2.5" fill="none">
+            <!-- 6-membered ring -->
+            <line x1="110" y1="45" x2="155" y2="70"/>
+            <line x1="114" y1="53" x2="148" y2="73"/>
+            <line x1="155" y1="70" x2="155" y2="120"/>
+            <line x1="155" y1="120" x2="110" y2="145"/>
+            <line x1="110" y1="145" x2="65" y2="120"/>
+            <line x1="65" y1="120" x2="65" y2="70"/>
+            <line x1="65" y1="70" x2="110" y2="45"/>
+            <!-- Top CH3 -->
+            <line x1="110" y1="45" x2="110" y2="22"/>
+            <!-- Bottom isopropenyl group -->
+            <line x1="110" y1="145" x2="110" y2="180"/>
+            <line x1="110" y1="180" x2="72" y2="202"/>
+            <line x1="108" y1="186" x2="76" y2="206"/>
+            <line x1="110" y1="180" x2="148" y2="202"/>
+          </g>
+          <g font-family="Inter, sans-serif" font-size="12" font-weight="700" fill="#0f172a" text-anchor="middle">
+            <rect x="92" y="4" width="36" height="16" fill="#f8fafc"/>
+            <text x="110" y="16">CH₃</text>
+            <text x="110" y="49" fill="#4f46e5">C</text>
+            <text x="168" y="74">CH</text>
+            <text x="170" y="124">CH₂</text>
+            <text x="110" y="149" fill="#4f46e5">CH</text>
+            <text x="48" y="124">H₂C</text>
+            <text x="48" y="74">H₂C</text>
+            <text x="110" y="184" fill="#4f46e5">C</text>
+            <text x="55" y="212">H₂C</text>
+            <text x="165" y="212">CH₃</text>
+          </g>
+        </svg>
+      `;
+    }
+
+    function getIsopreneSVG() {
+      return `
+        <svg viewBox="0 0 220 140" class="w-44 h-32 mx-auto">
+          <g stroke="#1e293b" stroke-width="2.5" fill="none">
+            <line x1="50" y1="30" x2="85" y2="70"/>
+            <line x1="50" y1="110" x2="85" y2="70"/>
+            <line x1="57" y1="112" x2="90" y2="74"/>
+            <line x1="85" y1="70" x2="135" y2="70"/>
+            <line x1="135" y1="70" x2="170" y2="30"/>
+            <line x1="141" y1="73" x2="175" y2="34"/>
+            <line x1="135" y1="70" x2="165" y2="110"/>
+          </g>
+          <g font-family="Inter, sans-serif" font-size="13" font-weight="700" fill="#0f172a" text-anchor="middle">
+            <text x="38" y="26">H₃C</text>
+            <text x="38" y="122">H₂C</text>
+            <text x="85" y="75" fill="#4f46e5">C</text>
+            <text x="135" y="75" fill="#4f46e5">C</text>
+            <text x="184" y="26">CH₂</text>
+            <text x="175" y="122">H</text>
+          </g>
+        </svg>
+      `;
+    }
+
+    function getGasBoxSVG() {
+      return `
+        <svg viewBox="0 0 320 165" class="w-full max-w-md mx-auto bg-white rounded-xl border-2 border-slate-700">
+          <!-- 7 Nitrogen (blue diatomic) -->
+          <g fill="#38bdf8" stroke="#0369a1" stroke-width="1.5">
+            <circle cx="45" cy="40" r="6"/><circle cx="55" cy="45" r="6"/>
+            <circle cx="135" cy="30" r="6"/><circle cx="145" cy="34" r="6"/>
+            <circle cx="195" cy="60" r="6"/><circle cx="207" cy="60" r="6"/>
+            <circle cx="105" cy="85" r="6"/><circle cx="117" cy="85" r="6"/>
+            <circle cx="145" cy="70" r="6"/><circle cx="145" cy="82" r="6"/>
+            <circle cx="40" cy="125" r="6"/><circle cx="50" cy="118" r="6"/>
+            <circle cx="165" cy="115" r="6"/><circle cx="175" cy="108" r="6"/>
+          </g>
+          <!-- 3 Oxygen (red diatomic) -->
+          <g fill="#ef4444" stroke="#991b1b" stroke-width="1.5">
+            <circle cx="95" cy="35" r="6"/><circle cx="103" cy="27" r="6"/>
+            <circle cx="235" cy="95" r="6"/><circle cx="247" cy="95" r="6"/>
+            <circle cx="120" cy="135" r="6"/><circle cx="130" cy="128" r="6"/>
+          </g>
+          <!-- 4 Ethanol (white ovals) -->
+          <g fill="#f8fafc" stroke="#334155" stroke-width="1.8">
+            <ellipse cx="42" cy="22" rx="10" ry="5" transform="rotate(25 42 22)"/>
+            <ellipse cx="95" cy="62" rx="6" ry="11"/>
+            <ellipse cx="82" cy="135" rx="11" ry="5" transform="rotate(15 82 135)"/>
+            <ellipse cx="225" cy="132" rx="11" ry="5" transform="rotate(-40 225 132)"/>
+          </g>
+          <!-- 1 Limonene (rectangle) -->
+          <rect x="215" y="20" width="24" height="14" fill="#fef08a" stroke="#854d0e" stroke-width="1.8"/>
+          <!-- Legend on right -->
+          <g font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#1e293b">
+            <circle cx="270" cy="35" r="5" fill="#38bdf8" stroke="#0369a1"/>
+            <text x="280" y="38">7 N₂</text>
+            <circle cx="270" cy="60" r="5" fill="#ef4444" stroke="#991b1b"/>
+            <text x="280" y="63">3 O₂</text>
+            <ellipse cx="270" cy="85" rx="7" ry="4" fill="#f8fafc" stroke="#334155"/>
+            <text x="280" y="88">4 Ethanol</text>
+            <rect x="263" y="105" width="14" height="9" fill="#fef08a" stroke="#854d0e"/>
+            <text x="280" y="113">1 Limonene</text>
+          </g>
+        </svg>
+      `;
+    }
+
+    // =========================================================================
+    // 6. QUESTION TEMPLATES & STEP-BY-STEP INTERACTIVE MODULES
+    // =========================================================================
+    function renderActiveQuestion() {
+      const container = document.getElementById('activeQuestionContainer');
+      const qId = appState.activeQuestionId;
+      const meta = QUESTIONS_META.find(q => q.id === qId);
+      const prog = appState.progress[qId];
+
+      let bodyHTML = '';
+
+      // Build specific interactive steps per question ID
+      if (qId === 'Q1') {
+        bodyHTML = buildQ1HTML(prog);
+      } else if (qId === 'Q2a') {
+        bodyHTML = buildQ2aHTML(prog);
+      } else if (qId === 'Q2b') {
+        bodyHTML = buildQ2bHTML(prog);
+      } else if (qId === 'Q2c') {
+        bodyHTML = buildQ2cHTML(prog);
+      } else if (qId === 'Q3a') {
+        bodyHTML = buildQ3aHTML(prog);
+      } else if (qId === 'Q3b') {
+        bodyHTML = buildQ3bHTML(prog);
+      } else if (qId === 'Q3c') {
+        bodyHTML = buildQ3cHTML(prog);
+      } else if (qId === 'Q3d') {
+        bodyHTML = buildQ3dHTML(prog);
+      } else if (qId === 'Q4a') {
+        bodyHTML = buildQ4aHTML(prog);
+      } else if (qId === 'Q4b') {
+        bodyHTML = buildQ4bHTML(prog);
+      } else if (qId === 'Q5-PCl3') {
+        bodyHTML = buildQ5PCl3HTML(prog);
+      } else if (qId === 'Q5-CH2O') {
+        bodyHTML = buildQ5CH2OHTML(prog);
+      } else if (qId === 'Q6a') {
+        bodyHTML = buildQ6aHTML(prog);
+      } else if (qId === 'Q6b') {
+        bodyHTML = buildQ6bHTML(prog);
+      } else if (qId === 'Q7a') {
+        bodyHTML = buildQ7aHTML(prog);
+      } else if (qId === 'Q7b') {
+        bodyHTML = buildQ7bHTML(prog);
+      }
+
+      // Reflection Box & Next Question Footer
+      const allStepsDone = prog.step1 && prog.step2 && prog.step3;
+      const reflectionHTML = `
+        <div id="reflectionSection" class="mt-8 pt-6 border-t-2 border-slate-200 ${allStepsDone ? 'step-unlocked' : 'step-locked'}">
+          <div class="bg-indigo-50/70 border border-indigo-200 rounded-2xl p-5">
+            <div class="flex items-center justify-between gap-2 mb-2">
+              <span class="text-xs font-extrabold uppercase tracking-wider text-indigo-700">
+                Final Step: My Paper Test Mistake & Reflection
+              </span>
+              <span class="text-xs font-semibold ${prog.completed ? 'text-emerald-700' : 'text-slate-500'}">
+                ${prog.completed ? '✓ Reflection Saved' : 'Min. 20 characters required'}
+              </span>
+            </div>
+            <p class="text-xs sm:text-sm text-slate-700 mb-3">
+              Look at your original paper test for <strong>${meta.title}</strong>. In 1–2 sentences, explain what mistake you made on paper (or what you left blank) and why the corrected answer makes sense:
+            </p>
+            <textarea
+              id="reflectionInput"
+              rows="3"
+              placeholder=""
+              class="w-full p-3 rounded-xl border border-slate-300 bg-white text-sm focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100 outline-none"
+            >${prog.reflection || ''}</textarea>
+            <div class="mt-3 flex flex-wrap items-center justify-between gap-3">
+              <span id="reflectionFeedback" class="text-xs font-semibold text-rose-600"></span>
+              <button
+                type="button"
+                onclick="saveReflectionAndComplete('${qId}')"
+                class="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs sm:text-sm shadow transition"
+              >
+                ✓ Save Reflection & Mark Question Complete
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+
+      container.innerHTML = `
+        <div class="flex flex-wrap items-center justify-between gap-2 pb-4 border-b border-slate-200">
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-indigo-100 text-indigo-800">${meta.pts}</span>
+              <span class="text-xs font-bold text-slate-400">Part ${meta.part}</span>
+              ${prog.completed ? '<span class="px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-emerald-100 text-emerald-800">✓ Completed</span>' : ''}
+            </div>
+            <h2 class="text-xl sm:text-2xl font-extrabold text-slate-900 mt-1">${meta.title}</h2>
+          </div>
+          <button onclick="toggleReferenceModal()" class="text-xs font-bold text-indigo-600 hover:underline">
+            Need a hint? Open Reference Sheet
+          </button>
+        </div>
+
+        <div class="mt-6 space-y-6">
+          ${bodyHTML}
+        </div>
+
+        ${reflectionHTML}
+      `;
+
+      // If Q3c is active, render its interactive canvas/SVG preview
+      if (qId === 'Q3c') {
+        updateQ3cVisuals();
+      }
+    }
+
+    function unlockStepWithFeedback(qId, stepKey, feedbackId, isCorrect, msg, recordText) {
+      const fbEl = document.getElementById(feedbackId);
+      if (!fbEl) return;
+
+      if (isCorrect) {
+        fbEl.className = 'mt-3 p-3 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-900 text-xs sm:text-sm font-medium';
+        fbEl.innerHTML = `<strong>✓ Correct!</strong> ${msg}`;
+        appState.progress[qId][stepKey] = true;
+        if (recordText) {
+          appState.progress[qId].records[stepKey] = recordText;
+        }
+        setTimeout(() => renderActiveQuestion(), 650);
+      } else {
+        fbEl.className = 'mt-3 p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-900 text-xs sm:text-sm font-medium';
+        fbEl.innerHTML = `<strong>✗ Not quite:</strong> ${msg}`;
+      }
+    }
+
+    function saveReflectionAndComplete(qId) {
+      const text = (document.getElementById('reflectionInput').value || '').trim();
+      const fb = document.getElementById('reflectionFeedback');
+      if (text.length < 20) {
+        fb.textContent = `Please write a complete sentence explaining your paper test mistake (${text.length}/20 chars).`;
+        return;
+      }
+      appState.progress[qId].reflection = text;
+      appState.progress[qId].completed = true;
+      updateGlobalProgressUI();
+      renderSidebarList();
+
+      // Advance to next incomplete question or Ticket view
+      const nextIncomplete = appState.selectedIds.find(id => !appState.progress[id].completed);
+      if (nextIncomplete) {
+        showToast('Question marked complete! Moving to next question.', '✓');
+        appState.activeQuestionId = nextIncomplete;
+        renderSidebarList();
+        renderActiveQuestion();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        showToast('All selected questions completed! Your Retest Ticket is unlocked.', '🎉');
+        switchView('ticket');
+      }
+    }
+
+    // =========================================================================
+    // INDIVIDUAL QUESTION BUILDERS & VALIDATORS
+    // =========================================================================
+
+    // -------------------- Q1: Pure Limonene Classification --------------------
+    function buildQ1HTML(prog) {
+      return `
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center bg-slate-50 p-4 rounded-xl border border-slate-200">
+          <div class="md:col-span-2 space-y-2 text-sm text-slate-700">
+            <p class="font-bold text-slate-900">Original Test Prompt:</p>
+            <p>Limonene (C<sub>10</sub>H<sub>16</sub>) is a nonpolar substance found in citrus fruits like oranges and lemons. Select the term or terms that apply to a sample of <strong>pure limonene</strong> and justify your answer.</p>
+            <p class="text-xs text-amber-800 bg-amber-100/70 p-2.5 rounded-lg">
+              <strong>Common Class Mistake:</strong> Calling the CH<sub>2</sub> or CH<sub>3</sub> parts inside the ring "different compounds mixed together." Look at the lines connecting every atom!
+            </p>
+          </div>
+          <div>${getLimoneneSVG()}</div>
+        </div>
+
+        <!-- Step 1 -->
+        <div class="p-5 rounded-xl border border-slate-200 bg-white step-unlocked">
+          <h4 class="font-bold text-sm text-slate-900 mb-2">Step 1 of 2: Which terms apply to a sample of PURE limonene? (Check ALL that apply)</h4>
+          <div class="grid grid-cols-2 sm:grid-cols-5 gap-2.5 my-3">
+            ${['Atom', 'Compound', 'Element', 'Molecule', 'Mixture'].map(term => `
+              <label class="flex items-center gap-2 p-2.5 rounded-lg border border-slate-300 hover:bg-slate-50 cursor-pointer text-xs sm:text-sm font-semibold">
+                <input type="checkbox" name="q1_terms" value="${term}" ${
+                  prog.step1 && (term === 'Compound' || term === 'Molecule') ? 'checked' : ''
+                } class="w-4 h-4 text-indigo-600 rounded"/>
+                <span>${term}</span>
+              </label>
+            `).join('')}
+          </div>
+          <button onclick="checkQ1Step1()" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold">
+            Check Step 1
+          </button>
+          <div id="q1_fb1">${prog.step1 ? '<div class="mt-2 text-xs font-bold text-emerald-700">✓ Step 1 Completed: Compound & Molecule!</div>' : ''}</div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="p-5 rounded-xl border border-slate-200 bg-white ${prog.step1 ? 'step-unlocked' : 'step-locked'}">
+          <h4 class="font-bold text-sm text-slate-900 mb-2">Step 2 of 2: Select the scientifically accurate justification:</h4>
+          <div class="space-y-2 my-3 text-xs sm:text-sm">
+            <button onclick="checkQ1Step2('A')" class="w-full text-left p-3 rounded-lg border border-slate-300 hover:bg-indigo-50 transition">
+              <strong>A.</strong> Limonene contains different molecules like CH<sub>3</sub> and H<sub>2</sub>C mixed together in a ring.
+            </button>
+            <button onclick="checkQ1Step2('B')" class="w-full text-left p-3 rounded-lg border ${prog.step2 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'} transition">
+              <strong>B.</strong> Limonene is a <strong>compound</strong> because it is made of two different elements (C and H) chemically bonded, and a <strong>molecule</strong> because multiple nonmetal atoms are covalently bonded together as a single unit. Since it is pure limonene, it is not a mixture.
+            </button>
+            <button onclick="checkQ1Step2('C')" class="w-full text-left p-3 rounded-lg border border-slate-300 hover:bg-indigo-50 transition">
+              <strong>C.</strong> Limonene is an element and an atom because carbon and hydrogen are on the Periodic Table.
+            </button>
+          </div>
+          <div id="q1_fb2"></div>
+        </div>
+      `;
+    }
+
+    function checkQ1Step1() {
+      const checked = Array.from(document.querySelectorAll('input[name="q1_terms"]:checked')).map(el => el.value);
+      const hasCompound = checked.includes('Compound');
+      const hasMolecule = checked.includes('Molecule');
+      const hasWrong = checked.some(x => x === 'Atom' || x === 'Element' || x === 'Mixture');
+
+      if (hasCompound && hasMolecule && !hasWrong) {
+        appState.progress['Q1'].step1 = true;
+        unlockStepWithFeedback('Q1', 'step1', 'q1_fb1', true, 'Pure limonene is both a Compound (2+ different elements bonded) and a Molecule (covalently bonded nonmetal atoms).', 'Selected Compound & Molecule');
+      } else if (checked.includes('Mixture')) {
+        unlockStepWithFeedback('Q1', 'step1', 'q1_fb1', false, 'The prompt states it is a sample of PURE limonene. All the C and H atoms in the structure are chemically bonded into one structure, so it is a pure substance, NOT a mixture.');
+      } else if (checked.includes('Element') || checked.includes('Atom')) {
+        unlockStepWithFeedback('Q1', 'step1', 'q1_fb1', false, 'Limonene is made of 26 total atoms from two different elements (Carbon and Hydrogen) bonded together, so the substance itself is neither a single Atom nor a single Element.');
+      } else {
+        unlockStepWithFeedback('Q1', 'step1', 'q1_fb1', false, 'Make sure you select BOTH terms that apply to covalently bonded carbon-hydrogen compounds!');
+      }
+    }
+
+    function checkQ1Step2(choice) {
+      if (choice === 'B') {
+        appState.progress['Q1'].step3 = true; // only 2 steps in Q1
+        unlockStepWithFeedback('Q1', 'step2', 'q1_fb2', true, 'Spot on! Every CH₂ and CH₃ is part of one single covalently bonded molecule, not separate compounds.', 'Matched Compound (2+ elements) & Molecule (covalently bonded nonmetals)');
+      } else {
+        unlockStepWithFeedback('Q1', 'step2', 'q1_fb2', false, 'Careful! Individual C and H atoms are elements/atoms, and groups like CH₃ are just parts of the molecule—not separate molecules or mixtures.');
+      }
+    }
+
+    // -------------------- Q2a: Balloon Pop Claims --------------------
+    function buildQ2aHTML(prog) {
+      return `
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-200 items-center">
+          <div class="md:col-span-2 text-xs sm:text-sm space-y-1.5 text-slate-700">
+            <p class="font-bold text-slate-900">Student Claims from the Balloon Demonstration:</p>
+            <p>• <strong>Angel:</strong> "Limonene molecules repelled the isoprene molecules because one is polar and the other is nonpolar. This repulsion caused the balloon to pop."</p>
+            <p>• <strong>Kayla:</strong> "Limonene particles hit the balloon with enough force to pop it because limonene particles are larger than isoprene particles."</p>
+            <p>• <strong>Jacob:</strong> "Limonene particles dissolved the isoprene molecules because they are both nonpolar particles and 'like dissolves like.'"</p>
+          </div>
+          <div>${getIsopreneSVG()}<p class="text-center text-xs font-bold text-slate-600">Isoprene (C<sub>5</sub>H<sub>8</sub>)</p></div>
+        </div>
+
+        <!-- Step 1 -->
+        <div class="p-5 rounded-xl border border-slate-200 bg-white step-unlocked">
+          <h4 class="font-bold text-sm text-slate-900 mb-2">Step 1 of 3: Look at the chemical structures of Limonene (C<sub>10</sub>H<sub>16</sub>) and Isoprene (C<sub>5</sub>H<sub>8</sub>). What is their polarity?</h4>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 my-3 text-xs sm:text-sm">
+            <button onclick="checkQ2aStep1('A')" class="p-3 rounded-lg border border-slate-300 hover:bg-indigo-50 text-left">
+              <strong>A.</strong> Limonene is polar and Isoprene is nonpolar.
+            </button>
+            <button onclick="checkQ2aStep1('B')" class="p-3 rounded-lg border ${prog.step1 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'} text-left">
+              <strong>B.</strong> Both are <strong>nonpolar</strong> hydrocarbons (made only of C and H).
+            </button>
+            <button onclick="checkQ2aStep1('C')" class="p-3 rounded-lg border border-slate-300 hover:bg-indigo-50 text-left">
+              <strong>C.</strong> Both are polar because they have double bonds.
+            </button>
+          </div>
+          <div id="q2a_fb1"></div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="p-5 rounded-xl border border-slate-200 bg-white ${prog.step1 ? 'step-unlocked' : 'step-locked'}">
+          <h4 class="font-bold text-sm text-slate-900 mb-2">Step 2 of 3: Which student do you agree with, and why did the balloon pop?</h4>
+          <div class="space-y-2 my-3 text-xs sm:text-sm">
+            <button onclick="checkQ2aStep2('Angel')" class="w-full text-left p-3 rounded-lg border border-slate-300 hover:bg-indigo-50">
+              <strong>Agree with Angel:</strong> Polar and nonpolar molecules violently repel each other, exploding the rubber.
+            </button>
+            <button onclick="checkQ2aStep2('Kayla')" class="w-full text-left p-3 rounded-lg border border-slate-300 hover:bg-indigo-50">
+              <strong>Agree with Kayla:</strong> The larger mass of limonene molecules acts like tiny bullets that pierce the rubber.
+            </button>
+            <button onclick="checkQ2aStep2('Jacob')" class="w-full text-left p-3 rounded-lg border ${prog.step2 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'}">
+              <strong>Agree with Jacob:</strong> Since both limonene and isoprene are nonpolar, limonene forms LDF attractions with isoprene and <strong>dissolves</strong> the rubber ("like dissolves like"), weakening the stretched balloon wall until it pops!
+            </button>
+          </div>
+          <div id="q2a_fb2"></div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="p-5 rounded-xl border border-slate-200 bg-white ${prog.step2 ? 'step-unlocked' : 'step-locked'}">
+          <h4 class="font-bold text-sm text-slate-900 mb-2">Step 3 of 3: Why are Angel's and Kayla's rationales invalid?</h4>
+          <div class="space-y-2 my-3 text-xs sm:text-sm">
+            <button onclick="checkQ2aStep3('wrong')" class="w-full text-left p-3 rounded-lg border border-slate-300 hover:bg-indigo-50">
+              <strong>A.</strong> Angel is wrong because both are polar, and Kayla is wrong because isoprene is larger than limonene.
+            </button>
+            <button onclick="checkQ2aStep3('correct')" class="w-full text-left p-3 rounded-lg border ${prog.step3 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'}">
+              <strong>B.</strong> Angel is wrong because <strong>neither molecule is polar</strong> (and polar/nonpolar liquids like water on a balloon just bead up rather than popping it). Kayla is wrong because the physical impact force of liquid droplets (like throwing water or sand) does not pop a balloon—intermolecular dissolving does.
+            </button>
+          </div>
+          <div id="q2a_fb3"></div>
+        </div>
+      `;
+    }
+
+    function checkQ2aStep1(c) {
+      if (c === 'B') {
+        unlockStepWithFeedback('Q2a', 'step1', 'q2a_fb1', true, 'Hydrocarbons made exclusively of Carbon and Hydrogen are nonpolar!', 'Identified both as nonpolar hydrocarbons');
+      } else {
+        unlockStepWithFeedback('Q2a', 'step1', 'q2a_fb1', false, 'Look closely at the atoms in Limonene and Isoprene: they only contain Carbon (C) and Hydrogen (H), which share electrons almost equally.');
+      }
+    }
+    function checkQ2aStep2(c) {
+      if (c === 'Jacob') {
+        unlockStepWithFeedback('Q2a', 'step2', 'q2a_fb2', true, 'Jacob is right! Nonpolar limonene dissolves nonpolar isoprene rubber via "like dissolves like".', 'Agreed with Jacob (like dissolves like)');
+      } else {
+        unlockStepWithFeedback('Q2a', 'step2', 'q2a_fb2', false, 'Remember Step 1: both molecules are nonpolar! What happens when two nonpolar substances touch?');
+      }
+    }
+    function checkQ2aStep3(c) {
+      if (c === 'correct') {
+        unlockStepWithFeedback('Q2a', 'step3', 'q2a_fb3', true, 'Both Angel and Kayla are thoroughly debunked using IMF principles.', 'Debunked Angel (neither is polar) & Kayla (impact force does not pop balloons)');
+      } else {
+        unlockStepWithFeedback('Q2a', 'step3', 'q2a_fb3', false, 'Check the polarity and size facts: Limonene (C10H16) is larger than Isoprene (C5H8), and neither is polar.');
+      }
+    }
+
+    // -------------------- Q2b: Isoprene IMFs --------------------
+    function buildQ2bHTML(prog) {
+      return `
+        <div class="p-5 rounded-xl border border-slate-200 bg-white step-unlocked">
+          <h4 class="font-bold text-sm text-slate-900 mb-2">Step 1 of 2: Trap Check — Does having Hydrogen atoms in Isoprene (C<sub>5</sub>H<sub>8</sub>) mean it has "Hydrogen Bonding"?</h4>
+          <div class="space-y-2 my-3 text-xs sm:text-sm">
+            <button onclick="checkQ2bStep1('A')" class="w-full text-left p-3 rounded-lg border border-slate-300 hover:bg-indigo-50">
+              <strong>A.</strong> Yes, any molecule with H atoms can form hydrogen bonds.
+            </button>
+            <button onclick="checkQ2bStep1('B')" class="w-full text-left p-3 rounded-lg border ${prog.step1 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'}">
+              <strong>B.</strong> <strong>No!</strong> Hydrogen bonding ONLY occurs when H is directly bonded to highly electronegative <strong>N, O, or F</strong>. Since Isoprene only has C-C and C-H bonds, it is completely nonpolar.
+            </button>
+          </div>
+          <div id="q2b_fb1"></div>
+        </div>
+
+        <div class="p-5 rounded-xl border border-slate-200 bg-white ${prog.step1 ? 'step-unlocked' : 'step-locked'}">
+          <h4 class="font-bold text-sm text-slate-900 mb-2">Step 2 of 2: Which intermolecular force(s) exist between nonpolar isoprene molecules?</h4>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 my-3 text-xs sm:text-sm">
+            <button onclick="checkQ2bStep2('LDF')" class="p-3 rounded-lg border ${prog.step2 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'} text-left font-semibold">
+              Only London Dispersion Forces (LDFs)
+            </button>
+            <button onclick="checkQ2bStep2('DD')" class="p-3 rounded-lg border border-slate-300 hover:bg-indigo-50 text-left">
+              LDFs and Dipole-Dipole Forces
+            </button>
+            <button onclick="checkQ2bStep2('HB')" class="p-3 rounded-lg border border-slate-300 hover:bg-indigo-50 text-left">
+              LDFs and Hydrogen Bonding
+            </button>
+          </div>
+          <div id="q2b_fb2"></div>
+        </div>
+      `;
+    }
+
+    function checkQ2bStep1(c) {
+      if (c === 'B') {
+        unlockStepWithFeedback('Q2b', 'step1', 'q2b_fb1', true, 'Crucial rule! Without N, O, or F, C–H bonds are nonpolar and cannot hydrogen-bond.', 'Verified C5H8 has no N/O/F and is nonpolar');
+      } else {
+        unlockStepWithFeedback('Q2b', 'step1', 'q2b_fb1', false, 'That was one of the biggest class traps! Hydrogen bonding requires H bonded directly to Nitrogen (N), Oxygen (O), or Fluorine (F).');
+      }
+    }
+    function checkQ2bStep2(c) {
+      if (c === 'LDF') {
+        appState.progress['Q2b'].step3 = true;
+        unlockStepWithFeedback('Q2b', 'step2', 'q2b_fb2', true, 'Nonpolar molecules only experience London Dispersion Forces (LDFs).', 'Selected Only London Dispersion Forces');
+      } else {
+        unlockStepWithFeedback('Q2b', 'step2', 'q2b_fb2', false, 'Since isoprene is nonpolar, it has no permanent dipoles.');
+      }
+    }
+
+    // -------------------- Q2c: Boiling Point Comparison --------------------
+    function buildQ2cHTML(prog) {
+      return `
+        <div class="p-5 rounded-xl border border-slate-200 bg-white step-unlocked">
+          <h4 class="font-bold text-sm text-slate-900 mb-2">Step 1 of 2: Both Limonene (C<sub>10</sub>H<sub>16</sub>) and Isoprene (C<sub>5</sub>H<sub>8</sub>) are nonpolar and only have LDFs. What determines which one has stronger LDFs?</h4>
+          <div class="space-y-2 my-3 text-xs sm:text-sm">
+            <button onclick="checkQ2cStep1('A')" class="w-full text-left p-3 rounded-lg border ${prog.step1 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'}">
+              <strong>A.</strong> <strong>Limonene</strong> (C<sub>10</sub>H<sub>16</sub>) is a larger molecule with <strong>more total electrons</strong> (76 e<sup>-</sup> vs. 38 e<sup>-</sup> in isoprene), creating a more polarizable electron cloud and <strong>stronger London Dispersion Forces</strong>.
+            </button>
+            <button onclick="checkQ2cStep1('B')" class="w-full text-left p-3 rounded-lg border border-slate-300 hover:bg-indigo-50">
+              <strong>B.</strong> Isoprene has stronger LDFs because smaller molecules pack closer together.
+            </button>
+          </div>
+          <div id="q2c_fb1"></div>
+        </div>
+
+        <div class="p-5 rounded-xl border border-slate-200 bg-white ${prog.step1 ? 'step-unlocked' : 'step-locked'}">
+          <h4 class="font-bold text-sm text-slate-900 mb-2">Step 2 of 2: Connect IMF strength to Boiling Point:</h4>
+          <div class="space-y-2 my-3 text-xs sm:text-sm">
+            <button onclick="checkQ2cStep2('wrong')" class="w-full text-left p-3 rounded-lg border border-slate-300 hover:bg-indigo-50">
+              <strong>A.</strong> Stronger LDFs mean a lower boiling point because the bonds break easily.
+            </button>
+            <button onclick="checkQ2cStep2('correct')" class="w-full text-left p-3 rounded-lg border ${prog.step2 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'}">
+              <strong>B.</strong> <strong>Limonene has the higher boiling point</strong> because its stronger LDFs require <strong>more thermal energy (heat)</strong> to overcome the attractions between molecules and separate them into a gas.
+            </button>
+          </div>
+          <div id="q2c_fb2"></div>
+        </div>
+      `;
+    }
+
+    function checkQ2cStep1(c) {
+      if (c === 'A') {
+        unlockStepWithFeedback('Q2c', 'step1', 'q2c_fb1', true, 'More electrons = larger electron cloud = stronger temporary dipoles (LDFs).', 'Linked Limonene larger electron count to stronger LDFs');
+      } else {
+        unlockStepWithFeedback('Q2c', 'step1', 'q2c_fb1', false, 'Remember: LDF strength increases as the number of electrons (molecular size) increases!');
+      }
+    }
+    function checkQ2cStep2(c) {
+      if (c === 'correct') {
+        appState.progress['Q2c'].step3 = true;
+        unlockStepWithFeedback('Q2c', 'step2', 'q2c_fb2', true, 'More electrons → Stronger LDFs → More energy required to separate molecules → Higher Boiling Point!', 'Claimed Limonene has higher BP due to stronger LDFs');
+      } else {
+        unlockStepWithFeedback('Q2c', 'step2', 'q2c_fb2', false, 'Stronger attractions between molecules require MORE energy (a higher temperature) to pull the molecules apart into a gas.');
+      }
+    }
+
+    // -------------------- Q3a: Cold Extraction Heating --------------------
+    function buildQ3aHTML(prog) {
+      return `
+        <div class="p-5 rounded-xl border border-slate-200 bg-white step-unlocked">
+          <h4 class="font-bold text-sm text-slate-900 mb-2">Step 1 of 2: In "At-Home Cold Extraction," orange peels are heated in warm water (43&ndash;49&deg;C) before pressing. What does heating do to the particles?</h4>
+          <div class="space-y-2 my-3 text-xs sm:text-sm">
+            <button onclick="checkQ3aStep1('correct')" class="w-full text-left p-3 rounded-lg border ${prog.step1 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'}">
+              <strong>A.</strong> Heating adds thermal energy, which <strong>increases the kinetic energy and movement of the particles</strong>, weakening/disrupting the intermolecular forces (IMFs) holding the limonene oil inside the orange peel.
+            </button>
+            <button onclick="checkQ3aStep1('wrong')" class="w-full text-left p-3 rounded-lg border border-slate-300 hover:bg-indigo-50">
+              <strong>B.</strong> Heating to 45&deg;C boils the water into steam and breaks the covalent C-C bonds inside limonene.
+            </button>
+          </div>
+          <div id="q3a_fb1"></div>
+        </div>
+      `;
+    }
+
+    function checkQ3aStep1(c) {
+      if (c === 'correct') {
+        appState.progress['Q3a'].step2 = true;
+        appState.progress['Q3a'].step3 = true;
+        unlockStepWithFeedback('Q3a', 'step1', 'q3a_fb1', true, 'Increased kinetic energy weakens the IMFs holding the limonene to the peel so it squeezes out easily!', 'Explained heating increases kinetic energy to weaken IMFs');
+      } else {
+        unlockStepWithFeedback('Q3a', 'step1', 'q3a_fb1', false, '43–49°C is warm water (not boiling!), and it weakens the intermolecular forces (IMFs) holding the oil in the peel without damaging covalent bonds.');
+      }
+    }
+
+    // -------------------- Q3b: Distillation Math (Randomized Anti-Copy) --------------------
+    function buildQ3bHTML(prog) {
+      const mp = appState.mathParams;
+      return `
+        <div class="p-4 rounded-xl bg-indigo-950 text-white space-y-2">
+          <div class="flex flex-wrap items-center justify-between gap-2">
+            <span class="text-xs font-extrabold uppercase tracking-wider text-indigo-300">⚡ Your Unique Anti-Copy Problem (${appState.seedCode})</span>
+            <div class="flex items-center gap-2">
+              <span class="text-xs bg-indigo-800 px-2.5 py-0.5 rounded font-mono">1 g = 1000 mg</span>
+              <button type="button" onclick="regenerateRandomMath('Q3b')" class="text-xs bg-indigo-700 hover:bg-indigo-600 px-2.5 py-0.5 rounded font-bold transition">
+                ↻ New Numbers
+              </button>
+            </div>
+          </div>
+          <p class="text-xs sm:text-sm leading-relaxed">
+            From the reading passage: <strong>Distillation yields 150 mg of orange oil for every 15 g of peel.</strong><br/>
+            A perfume recipe on your screen calls for <strong class="text-amber-300 underline">${mp.oilGrams} g of orange oil (limonene)</strong>. Assume the peel from one large orange has a mass of <strong class="text-amber-300 underline">${mp.peelMassPerOrange} g</strong>. Calculate how many oranges you need to peel!
+          </p>
+        </div>
+
+        <!-- Step 1: g to mg -->
+        <div class="p-5 rounded-xl border border-slate-200 bg-white step-unlocked">
+          <h4 class="font-bold text-sm text-slate-900 mb-1">Step 1 of 3: Convert ${mp.oilGrams} g of orange oil into milligrams (mg)</h4>
+          <p class="text-xs text-slate-500 mb-3">Since the passage ratio is in milligrams (150 mg), we must match units first (1 g = 1000 mg).</p>
+          <div class="flex flex-wrap items-center gap-3">
+            <span class="text-sm font-mono font-bold">${mp.oilGrams} g × 1000 =</span>
+            <input id="q3b_s1" type="number" step="any" value="${prog.step1 ? mp.oilMg : ''}" placeholder="" class="px-3 py-2 rounded-lg border border-slate-300 text-sm font-mono w-36"/>
+            <span class="text-sm font-bold text-slate-700">mg of oil</span>
+            <button onclick="checkQ3bStep1()" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold">Verify Step 1</button>
+          </div>
+          <div id="q3b_fb1"></div>
+        </div>
+
+        <!-- Step 2: mg oil to g peel -->
+        <div class="p-5 rounded-xl border border-slate-200 bg-white ${prog.step1 ? 'step-unlocked' : 'step-locked'}">
+          <h4 class="font-bold text-sm text-slate-900 mb-1">Step 2 of 3: Calculate total grams of orange peel needed</h4>
+          <p class="text-xs text-slate-500 mb-3">Passage ratio: Every 150 mg of oil requires 15 g of peel (which simplifies to 10 mg oil per 1 g peel).</p>
+          <div class="flex flex-wrap items-center gap-3">
+            <span class="text-sm font-mono font-bold">(${mp.oilMg} mg oil ÷ 150 mg) × 15 g peel =</span>
+            <input id="q3b_s2" type="number" step="any" value="${prog.step2 ? mp.totalPeelGrams : ''}" placeholder="" class="px-3 py-2 rounded-lg border border-slate-300 text-sm font-mono w-36"/>
+            <span class="text-sm font-bold text-slate-700">g of peel</span>
+            <button onclick="checkQ3bStep2()" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold">Verify Step 2</button>
+          </div>
+          <div id="q3b_fb2"></div>
+        </div>
+
+        <!-- Step 3: g peel to oranges -->
+        <div class="p-5 rounded-xl border border-slate-200 bg-white ${prog.step2 ? 'step-unlocked' : 'step-locked'}">
+          <h4 class="font-bold text-sm text-slate-900 mb-1">Step 3 of 3: Convert ${mp.totalPeelGrams} g of peel into number of oranges</h4>
+          <p class="text-xs text-slate-500 mb-3">Each large orange provides <strong>${mp.peelMassPerOrange} g</strong> of peel. Divide total peel mass by ${mp.peelMassPerOrange} g/orange (round to 2 decimal places):</p>
+          <div class="flex flex-wrap items-center gap-3">
+            <span class="text-sm font-mono font-bold">${mp.totalPeelGrams} g ÷ ${mp.peelMassPerOrange} g/orange =</span>
+            <input id="q3b_s3" type="number" step="any" value="${prog.step3 ? mp.exactOranges : ''}" placeholder="" class="px-3 py-2 rounded-lg border border-slate-300 text-sm font-mono w-36"/>
+            <span class="text-sm font-bold text-slate-700">oranges</span>
+            <button onclick="checkQ3bStep3()" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold">Verify Step 3</button>
+          </div>
+          <div id="q3b_fb3"></div>
+        </div>
+      `;
+    }
+
+    function checkQ3bStep1() {
+      const val = parseFloat(document.getElementById('q3b_s1').value);
+      const target = appState.mathParams.oilMg;
+      if (Math.abs(val - target) < 0.5) {
+        unlockStepWithFeedback('Q3b', 'step1', 'q3b_fb1', true, `${appState.mathParams.oilGrams} g = ${target} mg of limonene oil.`);
+      } else {
+        unlockStepWithFeedback('Q3b', 'step1', 'q3b_fb1', false, `Multiply ${appState.mathParams.oilGrams} by 1000 to convert grams to milligrams.`);
+      }
+    }
+    function checkQ3bStep2() {
+      const val = parseFloat(document.getElementById('q3b_s2').value);
+      const target = appState.mathParams.totalPeelGrams;
+      if (Math.abs(val - target) < 0.5) {
+        unlockStepWithFeedback('Q3b', 'step2', 'q3b_fb2', true, `You need ${target} g of orange peel.`);
+      } else {
+        unlockStepWithFeedback('Q3b', 'step2', 'q3b_fb2', false, `Divide ${appState.mathParams.oilMg} mg by 150 mg, then multiply by 15 g of peel.`);
+      }
+    }
+    function checkQ3bStep3() {
+      const val = parseFloat(document.getElementById('q3b_s3').value);
+      const mp = appState.mathParams;
+      const target = mp.exactOranges;
+      const ceilOranges = Math.ceil(target);
+      if (Math.abs(val - target) <= 0.1 || val === ceilOranges) {
+        unlockStepWithFeedback(
+          'Q3b',
+          'step3',
+          'q3b_fb3',
+          true,
+          `${mp.totalPeelGrams} g ÷ ${mp.peelMassPerOrange} g = ${target} oranges (or ${ceilOranges} whole oranges).`,
+          `For ${mp.oilGrams}g oil & ${mp.peelMassPerOrange}g/orange: ${mp.oilMg} mg oil -> ${mp.totalPeelGrams}g peel -> ${target} oranges`
+        );
+      } else {
+        unlockStepWithFeedback('Q3b', 'step3', 'q3b_fb3', false, `Divide ${mp.totalPeelGrams} g by ${mp.peelMassPerOrange} g per orange.`);
+      }
+    }
+
+    // -------------------- Q3c: Density & Solubility Particle Diagrams --------------------
+    function buildQ3cHTML(prog) {
+      return `
+        <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 space-y-2 text-xs sm:text-sm">
+          <p class="font-bold text-slate-900">Solubility & Density Data:</p>
+          <p>Limonene is <strong>soluble in ethanol</strong> but <strong>insoluble in water</strong>.</p>
+          <div class="grid grid-cols-3 gap-2 max-w-md font-mono text-xs bg-white p-2.5 rounded-lg border border-slate-200">
+            <div><strong>Ethanol (○):</strong> 0.79 g/mL</div>
+            <div><strong>Limonene (□):</strong> 0.84 g/mL</div>
+            <div><strong>Water (△):</strong> 1.00 g/mL</div>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- Mixture 1 Interactive Builder -->
+          <div class="p-5 rounded-xl border border-slate-200 bg-white space-y-3">
+            <h4 class="font-bold text-sm text-slate-900">Step 1: Mixture 1 (Liquid Ethanol ○ + Limonene □)</h4>
+            <p class="text-xs text-slate-600">How should the 5 ethanol circles (○) and 5 limonene squares (□) be arranged?</p>
+            <select id="q3c_m1_select" onchange="updateQ3cVisuals()" class="w-full p-2.5 rounded-lg border border-slate-300 text-xs sm:text-sm font-medium bg-white">
+              <option value="">-- Choose Particle Arrangement --</option>
+              <option value="separated_line" ${prog.step1 === false ? '' : ''}>Separated by a line into top & bottom layers</option>
+              <option value="mixed" ${prog.step1 ? 'selected' : ''}>Evenly mixed together in a single layer (Miscible/Soluble)</option>
+            </select>
+            <div id="q3c_canvas1" class="h-44 rounded-xl border-2 border-slate-300 bg-slate-50 flex items-center justify-center"></div>
+            <button onclick="checkQ3cStep1()" class="w-full py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold">
+              Check Mixture 1 Diagram
+            </button>
+            <div id="q3c_fb1"></div>
+          </div>
+
+          <!-- Mixture 2 Interactive Builder -->
+          <div class="p-5 rounded-xl border border-slate-200 bg-white space-y-3 ${prog.step1 ? 'step-unlocked' : 'step-locked'}">
+            <h4 class="font-bold text-sm text-slate-900">Step 2: Mixture 2 (Liquid Water △ + Limonene □)</h4>
+            <p class="text-xs text-slate-600">Since they are insoluble, which substance floats on top and which sinks to the bottom?</p>
+            <select id="q3c_m2_select" onchange="updateQ3cVisuals()" class="w-full p-2.5 rounded-lg border border-slate-300 text-xs sm:text-sm font-medium bg-white">
+              <option value="">-- Choose Layer Arrangement --</option>
+              <option value="mixed">Evenly mixed together in one layer</option>
+              <option value="water_top">2 Layers: Water (△, 1.00 g/mL) on TOP, Limonene (□, 0.84 g/mL) on BOTTOM</option>
+              <option value="limonene_top" ${prog.step2 ? 'selected' : ''}>2 Layers: Limonene (□, 0.84 g/mL) on TOP, Water (△, 1.00 g/mL) on BOTTOM</option>
+            </select>
+            <div id="q3c_canvas2" class="h-44 rounded-xl border-2 border-slate-300 bg-slate-50 flex items-center justify-center"></div>
+            <button onclick="checkQ3cStep2()" class="w-full py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold">
+              Check Mixture 2 Diagram
+            </button>
+            <div id="q3c_fb2"></div>
+          </div>
+        </div>
+      `;
+    }
+
+    function updateQ3cVisuals() {
+      const m1 = document.getElementById('q3c_m1_select')?.value;
+      const m2 = document.getElementById('q3c_m2_select')?.value;
+      const c1 = document.getElementById('q3c_canvas1');
+      const c2 = document.getElementById('q3c_canvas2');
+
+      if (c1) {
+        if (m1 === 'mixed') {
+          c1.innerHTML = `
+            <svg viewBox="0 0 200 130" class="w-full h-full">
+              <rect x="20" y="15" width="160" height="100" fill="#eef2ff" stroke="#334155" stroke-width="2"/>
+              <!-- 5 circles & 5 squares evenly dispersed -->
+              <circle cx="45" cy="40" r="7" fill="white" stroke="#1e293b" stroke-width="2"/>
+              <rect x="75" y="32" width="13" height="13" fill="#fef08a" stroke="#1e293b" stroke-width="2"/>
+              <circle cx="115" cy="42" r="7" fill="white" stroke="#1e293b" stroke-width="2"/>
+              <rect x="145" y="34" width="13" height="13" fill="#fef08a" stroke="#1e293b" stroke-width="2"/>
+              <rect x="42" y="68" width="13" height="13" fill="#fef08a" stroke="#1e293b" stroke-width="2"/>
+              <circle cx="82" cy="72" r="7" fill="white" stroke="#1e293b" stroke-width="2"/>
+              <rect x="112" y="65" width="13" height="13" fill="#fef08a" stroke="#1e293b" stroke-width="2"/>
+              <circle cx="152" cy="74" r="7" fill="white" stroke="#1e293b" stroke-width="2"/>
+              <circle cx="65" cy="98" r="7" fill="white" stroke="#1e293b" stroke-width="2"/>
+              <rect x="128" y="92" width="13" height="13" fill="#fef08a" stroke="#1e293b" stroke-width="2"/>
+            </svg>
+          `;
+        } else if (m1 === 'separated_line') {
+          c1.innerHTML = `
+            <svg viewBox="0 0 200 130" class="w-full h-full">
+              <rect x="20" y="15" width="160" height="100" fill="#fff1f2" stroke="#334155" stroke-width="2"/>
+              <line x1="20" y1="65" x2="180" y2="65" stroke="#e11d48" stroke-width="2" stroke-dasharray="4"/>
+              <circle cx="45" cy="40" r="7" fill="white" stroke="#1e293b" stroke-width="2"/>
+              <circle cx="75" cy="40" r="7" fill="white" stroke="#1e293b" stroke-width="2"/>
+              <circle cx="105" cy="40" r="7" fill="white" stroke="#1e293b" stroke-width="2"/>
+              <circle cx="135" cy="40" r="7" fill="white" stroke="#1e293b" stroke-width="2"/>
+              <circle cx="160" cy="40" r="7" fill="white" stroke="#1e293b" stroke-width="2"/>
+              <rect x="40" y="82" width="13" height="13" fill="#fef08a" stroke="#1e293b" stroke-width="2"/>
+              <rect x="70" y="82" width="13" height="13" fill="#fef08a" stroke="#1e293b" stroke-width="2"/>
+              <rect x="100" y="82" width="13" height="13" fill="#fef08a" stroke="#1e293b" stroke-width="2"/>
+              <rect x="130" y="82" width="13" height="13" fill="#fef08a" stroke="#1e293b" stroke-width="2"/>
+              <rect x="155" y="82" width="13" height="13" fill="#fef08a" stroke="#1e293b" stroke-width="2"/>
+            </svg>
+          `;
+        } else {
+          c1.innerHTML = `<span class="text-xs text-slate-400">Select an arrangement above to preview diagram</span>`;
+        }
+      }
+
+      if (c2) {
+        if (m2 === 'limonene_top') {
+          c2.innerHTML = `
+            <svg viewBox="0 0 200 130" class="w-full h-full">
+              <rect x="20" y="15" width="160" height="100" fill="#f0fdf4" stroke="#334155" stroke-width="2"/>
+              <line x1="20" y1="65" x2="180" y2="65" stroke="#334155" stroke-width="2"/>
+              <!-- Top: 5 Limonene squares -->
+              <rect x="38" y="34" width="13" height="13" fill="#fef08a" stroke="#1e293b" stroke-width="2"/>
+              <rect x="68" y="36" width="13" height="13" fill="#fef08a" stroke="#1e293b" stroke-width="2"/>
+              <rect x="98" y="32" width="13" height="13" fill="#fef08a" stroke="#1e293b" stroke-width="2"/>
+              <rect x="128" y="36" width="13" height="13" fill="#fef08a" stroke="#1e293b" stroke-width="2"/>
+              <rect x="154" y="33" width="13" height="13" fill="#fef08a" stroke="#1e293b" stroke-width="2"/>
+              <!-- Bottom: 5 Water triangles -->
+              <polygon points="45,80 38,95 52,95" fill="#bae6fd" stroke="#1e293b" stroke-width="2"/>
+              <polygon points="75,82 68,97 82,97" fill="#bae6fd" stroke="#1e293b" stroke-width="2"/>
+              <polygon points="105,79 98,94 112,94" fill="#bae6fd" stroke="#1e293b" stroke-width="2"/>
+              <polygon points="135,82 128,97 142,97" fill="#bae6fd" stroke="#1e293b" stroke-width="2"/>
+              <polygon points="160,80 153,95 167,95" fill="#bae6fd" stroke="#1e293b" stroke-width="2"/>
+            </svg>
+          `;
+        } else if (m2 === 'water_top') {
+          c2.innerHTML = `
+            <svg viewBox="0 0 200 130" class="w-full h-full">
+              <rect x="20" y="15" width="160" height="100" fill="#fff1f2" stroke="#334155" stroke-width="2"/>
+              <line x1="20" y1="65" x2="180" y2="65" stroke="#e11d48" stroke-width="2"/>
+              <polygon points="45,32 38,47 52,47" fill="#bae6fd" stroke="#1e293b" stroke-width="2"/>
+              <polygon points="85,32 78,47 92,47" fill="#bae6fd" stroke="#1e293b" stroke-width="2"/>
+              <polygon points="125,32 118,47 132,47" fill="#bae6fd" stroke="#1e293b" stroke-width="2"/>
+              <rect x="45" y="82" width="13" height="13" fill="#fef08a" stroke="#1e293b" stroke-width="2"/>
+              <rect x="95" y="82" width="13" height="13" fill="#fef08a" stroke="#1e293b" stroke-width="2"/>
+              <rect x="140" y="82" width="13" height="13" fill="#fef08a" stroke="#1e293b" stroke-width="2"/>
+            </svg>
+          `;
+        } else {
+          c2.innerHTML = `<span class="text-xs text-slate-400">Select an arrangement above to preview diagram</span>`;
+        }
+      }
+    }
+
+    function checkQ3cStep1() {
+      const val = document.getElementById('q3c_m1_select').value;
+      if (val === 'mixed') {
+        unlockStepWithFeedback('Q3c', 'step1', 'q3c_fb1', true, 'Since limonene is soluble in ethanol, the circles and squares mix evenly with no dividing line!', 'Built evenly mixed Ethanol + Limonene diagram');
+      } else {
+        unlockStepWithFeedback('Q3c', 'step1', 'q3c_fb1', false, 'Read the prompt carefully: "Limonene is SOLUBLE in ethanol." Soluble liquids mix completely into one single layer!');
+      }
+    }
+
+    function checkQ3cStep2() {
+      const val = document.getElementById('q3c_m2_select').value;
+      if (val === 'limonene_top') {
+        appState.progress['Q3c'].step3 = true;
+        unlockStepWithFeedback('Q3c', 'step2', 'q3c_fb2', true, 'Limonene (0.84 g/mL) is less dense than Water (1.00 g/mL), so Limonene squares float on top and Water triangles sink to the bottom!', 'Built 2-layer diagram with Limonene on top (0.84 g/mL) & Water on bottom (1.00 g/mL)');
+      } else {
+        unlockStepWithFeedback('Q3c', 'step2', 'q3c_fb2', false, 'Compare the densities in the table: Limonene is 0.84 g/mL and Water is 1.00 g/mL. The denser liquid always sinks to the bottom!');
+      }
+    }
+
+    // -------------------- Q3d: Gas Partial Pressures (Randomized Anti-Copy) --------------------
+    function buildQ3dHTML(prog) {
+      const mp = appState.mathParams;
+      return `
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-center bg-slate-50 p-4 rounded-xl border border-slate-200">
+          <div class="space-y-2 text-xs sm:text-sm">
+            <div class="flex items-center justify-between gap-2">
+              <span class="px-2.5 py-0.5 rounded bg-indigo-900 text-indigo-200 font-mono text-xs font-bold">⚡ Unique Math ID: ${appState.seedCode}</span>
+              <button type="button" onclick="regenerateRandomMath('Q3d')" class="text-xs bg-indigo-100 hover:bg-indigo-200 text-indigo-800 px-2.5 py-0.5 rounded font-bold transition">
+                ↻ New Numbers
+              </button>
+            </div>
+            <p class="font-bold text-slate-900">Particulate Gas Sample (15 Total Particles):</p>
+            <p><strong>7 Nitrogen ($\text{N}_2$)</strong>, <strong>3 Oxygen ($\text{O}_2$)</strong>, <strong>4 Ethanol</strong>, and <strong>1 Limonene</strong>.</p>
+            <p class="p-2.5 rounded-lg bg-indigo-100 text-indigo-950 font-semibold">
+              In your gas sample, the partial pressure of the <strong>7 Nitrogen particles</strong> is <strong class="underline">${mp.n2Pressure} atm</strong>.
+            </p>
+          </div>
+          <div>${getGasBoxSVG()}</div>
+        </div>
+
+        <!-- Step 1: Pressure per particle -->
+        <div class="p-5 rounded-xl border border-slate-200 bg-white step-unlocked">
+          <h4 class="font-bold text-sm text-slate-900 mb-1">Step 1 of 3: Find the pressure of 1 single gas particle</h4>
+          <p class="text-xs text-slate-500 mb-3">If 7 Nitrogen particles exert <strong>${mp.n2Pressure} atm</strong>, how much pressure does <strong>1 particle</strong> exert?</p>
+          <div class="flex flex-wrap items-center gap-3">
+            <span class="text-sm font-mono font-bold">${mp.n2Pressure} atm ÷ 7 particles =</span>
+            <input id="q3d_s1" type="number" step="any" value="${prog.step1 ? mp.pressurePerParticle : ''}" placeholder="" class="px-3 py-2 rounded-lg border border-slate-300 text-sm font-mono w-36"/>
+            <span class="text-sm font-bold text-slate-700">atm per particle</span>
+            <button onclick="checkQ3dStep1()" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold">Verify Step 1</button>
+          </div>
+          <div id="q3d_fb1"></div>
+        </div>
+
+        <!-- Step 2: Total Pressure (i) -->
+        <div class="p-5 rounded-xl border border-slate-200 bg-white ${prog.step1 ? 'step-unlocked' : 'step-locked'}">
+          <h4 class="font-bold text-sm text-slate-900 mb-1">Step 2 of 3 (Part i): Calculate the Total Pressure (P<sub>total</sub>) of all 15 particles</h4>
+          <p class="text-xs text-slate-500 mb-3">Multiply 15 total particles by ${mp.pressurePerParticle} atm/particle (or solve (7/15) &times; P<sub>total</sub> = ${mp.n2Pressure} atm):</p>
+          <div class="flex flex-wrap items-center gap-3">
+            <span class="text-sm font-mono font-bold">15 particles × ${mp.pressurePerParticle} atm =</span>
+            <input id="q3d_s2" type="number" step="any" value="${prog.step2 ? mp.totalPressure : ''}" placeholder="" class="px-3 py-2 rounded-lg border border-slate-300 text-sm font-mono w-36"/>
+            <span class="text-sm font-bold text-slate-700">atm</span>
+            <button onclick="checkQ3dStep2()" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold">Verify P_total</button>
+          </div>
+          <div id="q3d_fb2"></div>
+        </div>
+
+        <!-- Step 3: Ethanol Partial Pressure (ii) -->
+        <div class="p-5 rounded-xl border border-slate-200 bg-white ${prog.step2 ? 'step-unlocked' : 'step-locked'}">
+          <h4 class="font-bold text-sm text-slate-900 mb-1">Step 3 of 3 (Part ii): Calculate the Partial Pressure of Ethanol (P<sub>ethanol</sub>)</h4>
+          <p class="text-xs text-slate-500 mb-3">There are <strong>4 ethanol particles</strong> in the box. (Watch out for the common trap: don't just divide 4 by 15 without multiplying by P<sub>total</sub>!)</p>
+          <div class="flex flex-wrap items-center gap-3">
+            <span class="text-sm font-mono font-bold">4 ethanol × ${mp.pressurePerParticle} atm (or 4/15 × ${mp.totalPressure}) =</span>
+            <input id="q3d_s3" type="number" step="any" value="${prog.step3 ? mp.ethanolPressure : ''}" placeholder="" class="px-3 py-2 rounded-lg border border-slate-300 text-sm font-mono w-36"/>
+            <span class="text-sm font-bold text-slate-700">atm</span>
+            <button onclick="checkQ3dStep3()" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold">Verify P_ethanol</button>
+          </div>
+          <div id="q3d_fb3"></div>
+        </div>
+      `;
+    }
+
+    function checkQ3dStep1() {
+      const val = parseFloat(document.getElementById('q3d_s1').value);
+      const target = appState.mathParams.pressurePerParticle;
+      if (Math.abs(val - target) < 0.005) {
+        unlockStepWithFeedback('Q3d', 'step1', 'q3d_fb1', true, `Each individual gas particle contributes ${target} atm of pressure!`);
+      } else {
+        unlockStepWithFeedback('Q3d', 'step1', 'q3d_fb1', false, `Divide ${appState.mathParams.n2Pressure} atm by 7 nitrogen particles.`);
+      }
+    }
+    function checkQ3dStep2() {
+      const val = parseFloat(document.getElementById('q3d_s2').value);
+      const target = appState.mathParams.totalPressure;
+      if (Math.abs(val - target) < 0.02) {
+        unlockStepWithFeedback('Q3d', 'step2', 'q3d_fb2', true, `Total pressure of all 15 particles = ${target} atm.`);
+      } else {
+        unlockStepWithFeedback('Q3d', 'step2', 'q3d_fb2', false, `Multiply 15 particles by ${appState.mathParams.pressurePerParticle} atm/particle.`);
+      }
+    }
+    function checkQ3dStep3() {
+      const val = parseFloat(document.getElementById('q3d_s3').value);
+      const mp = appState.mathParams;
+      const target = mp.ethanolPressure;
+      if (Math.abs(val - target) < 0.02) {
+        unlockStepWithFeedback(
+          'Q3d',
+          'step3',
+          'q3d_fb3',
+          true,
+          `Partial pressure of Ethanol = ${target} atm!`,
+          `Given P_N2 = ${mp.n2Pressure} atm: P_total = ${mp.totalPressure} atm, P_ethanol = ${target} atm`
+        );
+      } else if (Math.abs(val - 0.27) < 0.02) {
+        unlockStepWithFeedback('Q3d', 'step3', 'q3d_fb3', false, 'Careful! 4/15 = 0.267 is the mole FRACTION of ethanol, not its pressure! Multiply that fraction by P_total (or just multiply 4 particles × ' + mp.pressurePerParticle + ' atm).');
+      } else {
+        unlockStepWithFeedback('Q3d', 'step3', 'q3d_fb3', false, `Multiply 4 ethanol particles by ${mp.pressurePerParticle} atm per particle.`);
+      }
+    }
+
+    // -------------------- Q4a: Distillation vs. Electrolysis --------------------
+    function buildQ4aHTML(prog) {
+      return `
+        <div class="p-5 rounded-xl border border-slate-200 bg-white step-unlocked">
+          <h4 class="font-bold text-sm text-slate-900 mb-2">Step 1 of 2: What happens during <strong>Distillation</strong> (separating water from Coke or limonene from peels)?</h4>
+          <div class="space-y-2 my-3 text-xs sm:text-sm">
+            <button onclick="checkQ4aStep1('correct')" class="w-full text-left p-3 rounded-lg border ${prog.step1 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'}">
+              <strong>A.</strong> Distillation is a <strong>physical separation process</strong> that uses heat and boiling point differences to break <strong>intermolecular forces (IMFs)</strong> between molecules without changing the molecules themselves.
+            </button>
+            <button onclick="checkQ4aStep1('wrong')" class="w-full text-left p-3 rounded-lg border border-slate-300 hover:bg-indigo-50">
+              <strong>B.</strong> Distillation breaks intramolecular covalent bonds inside water molecules to make H<sub>2</sub> and O<sub>2</sub> gas.
+            </button>
+          </div>
+          <div id="q4a_fb1"></div>
+        </div>
+
+        <div class="p-5 rounded-xl border border-slate-200 bg-white ${prog.step1 ? 'step-unlocked' : 'step-locked'}">
+          <h4 class="font-bold text-sm text-slate-900 mb-2">Step 2 of 2: What happens during <strong>Electrolysis</strong>?</h4>
+          <div class="space-y-2 my-3 text-xs sm:text-sm">
+            <button onclick="checkQ4aStep2('wrong')" class="w-full text-left p-3 rounded-lg border border-slate-300 hover:bg-indigo-50">
+              <strong>A.</strong> Electrolysis uses electricity to gently warm molecules and break IMFs.
+            </button>
+            <button onclick="checkQ4aStep2('correct')" class="w-full text-left p-3 rounded-lg border ${prog.step2 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'}">
+              <strong>B.</strong> Electrolysis is a <strong>chemical change</strong> that uses electrical energy to break <strong>intramolecular covalent bonds</strong> within a molecule (e.g., splitting H<sub>2</sub>O into H<sub>2</sub> and O<sub>2</sub>).
+            </button>
+          </div>
+          <div id="q4a_fb2"></div>
+        </div>
+      `;
+    }
+
+    function checkQ4aStep1(c) {
+      if (c === 'correct') {
+        unlockStepWithFeedback('Q4a', 'step1', 'q4a_fb1', true, 'Distillation breaks Intermolecular Forces (IMFs) between molecules.');
+      } else {
+        unlockStepWithFeedback('Q4a', 'step1', 'q4a_fb1', false, 'Boiling/evaporating during distillation only separates molecules from each other (IMFs); it never breaks covalent bonds.');
+      }
+    }
+    function checkQ4aStep2(c) {
+      if (c === 'correct') {
+        appState.progress['Q4a'].step3 = true;
+        unlockStepWithFeedback('Q4a', 'step2', 'q4a_fb2', true, 'Electrolysis breaks Intramolecular Covalent Bonds inside molecules!', 'Distinguished Distillation (breaks IMFs) vs Electrolysis (breaks intramolecular covalent bonds)');
+      } else {
+        unlockStepWithFeedback('Q4a', 'step2', 'q4a_fb2', false, 'Electrolysis uses an electric current to break the actual covalent bonds inside the molecule.');
+      }
+    }
+
+    // -------------------- Q4b: Chromatography & Rf Values --------------------
+    function buildQ4bHTML(prog) {
+      return `
+        <div class="p-5 rounded-xl border border-slate-200 bg-white step-unlocked">
+          <h4 class="font-bold text-sm text-slate-900 mb-2">Step 1 of 2: In water-based paper chromatography, water is the mobile phase traveling up the paper. What is the polarity of water?</h4>
+          <div class="grid grid-cols-2 gap-3 my-3 text-xs sm:text-sm">
+            <button onclick="checkQ4bStep1('polar')" class="p-3 rounded-lg border ${prog.step1 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'} font-bold">
+              Water is Polar
+            </button>
+            <button onclick="checkQ4bStep1('nonpolar')" class="p-3 rounded-lg border border-slate-300 hover:bg-indigo-50 font-bold">
+              Water is Nonpolar
+            </button>
+          </div>
+          <div id="q4b_fb1"></div>
+        </div>
+
+        <div class="p-5 rounded-xl border border-slate-200 bg-white ${prog.step1 ? 'step-unlocked' : 'step-locked'}">
+          <h4 class="font-bold text-sm text-slate-900 mb-2">Step 2 of 2: How do the R<sub>f</sub> values tell you which dye is more polar?</h4>
+          <div class="space-y-2 my-3 text-xs sm:text-sm">
+            <button onclick="checkQ4bStep2('correct')" class="w-full text-left p-3 rounded-lg border ${prog.step2 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'}">
+              <strong>A.</strong> A <strong>higher R<sub>f</sub> value</strong> means the dye traveled farther up the paper with the polar water mobile phase. Because "like attracts like," a higher R<sub>f</sub> means the dye is <strong>more polar</strong> (more strongly attracted to polar water).
+            </button>
+            <button onclick="checkQ4bStep2('wrong')" class="w-full text-left p-3 rounded-lg border border-slate-300 hover:bg-indigo-50">
+              <strong>B.</strong> A higher R<sub>f</sub> value means the dye has a higher boiling point and is nonpolar.
+            </button>
+          </div>
+          <div id="q4b_fb2"></div>
+        </div>
+      `;
+    }
+
+    function checkQ4bStep1(c) {
+      if (c === 'polar') {
+        unlockStepWithFeedback('Q4b', 'step1', 'q4b_fb1', true, 'Water (H₂O) is a classic polar solvent.');
+      } else {
+        unlockStepWithFeedback('Q4b', 'step1', 'q4b_fb1', false, 'Water has a bent shape with polar O–H bonds, making it strongly polar!');
+      }
+    }
+    function checkQ4bStep2(c) {
+      if (c === 'correct') {
+        appState.progress['Q4b'].step3 = true;
+        unlockStepWithFeedback('Q4b', 'step2', 'q4b_fb2', true, 'Higher Rf in water = traveled farther with polar water = more polar dye!', 'Linked higher Rf value to stronger attraction to polar water');
+      } else {
+        unlockStepWithFeedback('Q4b', 'step2', 'q4b_fb2', false, 'Chromatography separates by polarity/attraction to the solvent, not boiling point.');
+      }
+    }
+
+    // -------------------- Q5-PCl3: Lewis, VSEPR, Polarity --------------------
+    function buildQ5PCl3HTML(prog) {
+      return `
+        <!-- Step 1: Valence Electrons -->
+        <div class="p-5 rounded-xl border border-slate-200 bg-white step-unlocked">
+          <h4 class="font-bold text-sm text-slate-900 mb-1">Step 1 of 3: Calculate Total Valence Electrons for PCl<sub>3</sub></h4>
+          <p class="text-xs text-slate-500 mb-3">Phosphorus (P, Group 15) has <strong>5</strong> valence e<sup>-</sup>. Each Chlorine (Cl, Group 17) has <strong>7</strong> valence e<sup>-</sup>.</p>
+          <div class="flex flex-wrap items-center gap-3">
+            <span class="text-sm font-mono font-bold">5 + 3(7) =</span>
+            <input id="q5p_s1" type="number" value="${prog.step1 ? 26 : ''}" placeholder="Total e-" class="px-3 py-2 rounded-lg border border-slate-300 text-sm font-mono w-28"/>
+            <span class="text-sm font-bold text-slate-700">valence e<sup>-</sup></span>
+            <button onclick="checkQ5PCl3Step1()" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold">Verify Step 1</button>
+          </div>
+          <div id="q5p_fb1"></div>
+        </div>
+
+        <!-- Step 2: Lewis Structure Selection -->
+        <div class="p-5 rounded-xl border border-slate-200 bg-white ${prog.step1 ? 'step-unlocked' : 'step-locked'}">
+          <h4 class="font-bold text-sm text-slate-900 mb-2">Step 2 of 3: Choose the Correct Lewis Structure for PCl<sub>3</sub> (26 e<sup>-</sup>)</h4>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 my-3">
+            <!-- Wrong 1: Only 2 Cl -->
+            <button onclick="checkQ5PCl3Step2('A')" class="p-3 rounded-xl border border-slate-300 hover:bg-indigo-50 text-center space-y-2">
+              <div class="font-mono text-sm bg-slate-100 py-4 rounded-lg">:Cl — P — Cl:</div>
+              <p class="text-xs font-bold text-slate-700">Structure A (Only 2 Cl atoms)</p>
+            </button>
+            <!-- Wrong 2: Missing lone pair on P -->
+            <button onclick="checkQ5PCl3Step2('B')" class="p-3 rounded-xl border border-slate-300 hover:bg-indigo-50 text-center space-y-2">
+              <div class="font-mono text-xs bg-slate-100 py-3 rounded-lg leading-tight">
+                :Cl — P — Cl:<br/>|<br/>:Cl:
+              </div>
+              <p class="text-xs font-bold text-slate-700">Structure B (24 e<sup>-</sup>, NO lone pair on P)</p>
+            </button>
+            <!-- Correct: 3 Cl + Lone pair on P -->
+            <button onclick="checkQ5PCl3Step2('C')" class="p-3 rounded-xl border ${prog.step2 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'} text-center space-y-2">
+              <div class="font-mono text-xs bg-indigo-50 py-2.5 rounded-lg leading-tight font-bold text-indigo-950">
+                &nbsp;&nbsp;••<br/>:Cl — P — Cl:<br/>&nbsp;&nbsp;|<br/>&nbsp;:Cl:
+              </div>
+              <p class="text-xs font-bold text-indigo-900">Structure C (26 e<sup>-</sup>, 1 Lone Pair on Central P)</p>
+            </button>
+          </div>
+          <div id="q5p_fb2"></div>
+        </div>
+
+        <!-- Step 3: VSEPR Shape & Polarity -->
+        <div class="p-5 rounded-xl border border-slate-200 bg-white ${prog.step2 ? 'step-unlocked' : 'step-locked'}">
+          <h4 class="font-bold text-sm text-slate-900 mb-2">Step 3 of 3: Central P has 3 bonded atoms + 1 lone pair (4 total domains). What is its 3D VSEPR Shape and Polarity?</h4>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 my-3 text-xs sm:text-sm">
+            <button onclick="checkQ5PCl3Step3('A')" class="p-3 rounded-lg border border-slate-300 hover:bg-indigo-50 text-left">
+              <strong>A.</strong> Trigonal Planar & Nonpolar
+            </button>
+            <button onclick="checkQ5PCl3Step3('B')" class="p-3 rounded-lg border border-slate-300 hover:bg-indigo-50 text-left">
+              <strong>B.</strong> Bent & Nonpolar
+            </button>
+            <button onclick="checkQ5PCl3Step3('C')" class="p-3 rounded-lg border border-slate-300 hover:bg-indigo-50 text-left">
+              <strong>C.</strong> Trigonal Pyramidal & Nonpolar
+            </button>
+            <button onclick="checkQ5PCl3Step3('D')" class="p-3 rounded-lg border ${prog.step3 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'} text-left font-bold">
+              <strong>D.</strong> Trigonal Pyramidal & Polar
+            </button>
+          </div>
+          <div id="q5p_fb3"></div>
+        </div>
+      `;
+    }
+
+    function checkQ5PCl3Step1() {
+      const val = parseInt(document.getElementById('q5p_s1').value, 10);
+      if (val === 26) {
+        unlockStepWithFeedback('Q5-PCl3', 'step1', 'q5p_fb1', true, '5 + 21 = 26 total valence electrons!');
+      } else {
+        unlockStepWithFeedback('Q5-PCl3', 'step1', 'q5p_fb1', false, 'P has 5 valence electrons and each of the 3 Cl atoms has 7: calculate 5 + (3 × 7).');
+      }
+    }
+    function checkQ5PCl3Step2(c) {
+      if (c === 'C') {
+        unlockStepWithFeedback('Q5-PCl3', 'step2', 'q5p_fb2', true, '3 Cl atoms use 24 electrons, leaving 2 electrons that MUST go on the central P atom as a lone pair!');
+      } else {
+        unlockStepWithFeedback('Q5-PCl3', 'step2', 'q5p_fb2', false, 'Count all 26 electrons! Each Cl branch with 3 lone pairs + 1 single bond uses 8 e- (3 × 8 = 24 e-). Where do the remaining 2 electrons go?');
+      }
+    }
+    function checkQ5PCl3Step3(c) {
+      if (c === 'D') {
+        unlockStepWithFeedback(
+          'Q5-PCl3',
+          'step3',
+          'q5p_fb3',
+          true,
+          '3 bonding domains + 1 lone pair on the central atom = Trigonal Pyramidal! And that lone pair makes the 3D shape asymmetrical, so it is Polar.',
+          'PCl3: 26 e-, 1 central lone pair, Trigonal Pyramidal, Polar'
+        );
+      } else {
+        unlockStepWithFeedback('Q5-PCl3', 'step3', 'q5p_fb3', false, 'Check the VSEPR Reference Sheet! 3 bonded atoms + 1 central lone pair is Trigonal Pyramidal, and the lone pair makes the molecule asymmetrical (Polar).');
+      }
+    }
+
+    // -------------------- Q5-CH2O: Lewis, VSEPR, Polarity --------------------
+    function buildQ5CH2OHTML(prog) {
+      return `
+        <!-- Step 1: Valence Electrons -->
+        <div class="p-5 rounded-xl border border-slate-200 bg-white step-unlocked">
+          <h4 class="font-bold text-sm text-slate-900 mb-1">Step 1 of 3: Calculate Total Valence Electrons for CH<sub>2</sub>O (C is central)</h4>
+          <p class="text-xs text-slate-500 mb-3">Carbon (C) = <strong>4</strong> e<sup>-</sup>, each Hydrogen (H) = <strong>1</strong> e<sup>-</sup>, Oxygen (O) = <strong>6</strong> e<sup>-</sup>.</p>
+          <div class="flex flex-wrap items-center gap-3">
+            <span class="text-sm font-mono font-bold">4 + 2(1) + 6 =</span>
+            <input id="q5c_s1" type="number" value="${prog.step1 ? 12 : ''}" placeholder="Total e-" class="px-3 py-2 rounded-lg border border-slate-300 text-sm font-mono w-28"/>
+            <span class="text-sm font-bold text-slate-700">valence e<sup>-</sup></span>
+            <button onclick="checkQ5CH2OStep1()" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold">Verify Step 1</button>
+          </div>
+          <div id="q5c_fb1"></div>
+        </div>
+
+        <!-- Step 2: Lewis Structure Selection -->
+        <div class="p-5 rounded-xl border border-slate-200 bg-white ${prog.step1 ? 'step-unlocked' : 'step-locked'}">
+          <h4 class="font-bold text-sm text-slate-900 mb-2">Step 2 of 3: Choose the Correct Lewis Structure for CH<sub>2</sub>O (12 e<sup>-</sup>)</h4>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 my-3">
+            <button onclick="checkQ5CH2OStep2('A')" class="p-3 rounded-xl border border-slate-300 hover:bg-indigo-50 text-center space-y-2">
+              <div class="font-mono text-xs bg-slate-100 py-3 rounded-lg leading-tight">
+                &nbsp;:O:<br/>&nbsp;&nbsp;|<br/>H — C — H
+              </div>
+              <p class="text-xs font-bold text-slate-700">Structure A (Single C-O bond; C only has 6 e<sup>-</sup>)</p>
+            </button>
+            <button onclick="checkQ5CH2OStep2('B')" class="p-3 rounded-xl border ${prog.step2 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'} text-center space-y-2">
+              <div class="font-mono text-xs bg-indigo-50 py-3 rounded-lg leading-tight font-bold text-indigo-950">
+                &nbsp;.O.<br/>&nbsp;&nbsp;||<br/>H — C — H
+              </div>
+              <p class="text-xs font-bold text-indigo-900">Structure B (C=O Double Bond + 2 lone pairs on O; full octets!)</p>
+            </button>
+            <button onclick="checkQ5CH2OStep2('C')" class="p-3 rounded-xl border border-slate-300 hover:bg-indigo-50 text-center space-y-2">
+              <div class="font-mono text-xs bg-slate-100 py-3 rounded-lg leading-tight">
+                :O = C = O:
+              </div>
+              <p class="text-xs font-bold text-slate-700">Structure C (That's CO<sub>2</sub>, not CH<sub>2</sub>O!)</p>
+            </button>
+          </div>
+          <div id="q5c_fb2"></div>
+        </div>
+
+        <!-- Step 3: VSEPR & Polarity -->
+        <div class="p-5 rounded-xl border border-slate-200 bg-white ${prog.step2 ? 'step-unlocked' : 'step-locked'}">
+          <h4 class="font-bold text-sm text-slate-900 mb-2">Step 3 of 3: Central Carbon has 3 bonding domains (two C-H single bonds and one C=O double bond) and 0 lone pairs. What is its VSEPR Shape and Polarity?</h4>
+          <p class="text-xs text-amber-800 bg-amber-50 p-2 rounded mb-3">
+            <strong>Polarity Trap Alert:</strong> Even though Carbon has 0 lone pairs, look at the outer atoms attached to Carbon: are Oxygen and Hydrogen identical, or does Oxygen pull electrons much harder?
+          </p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 my-3 text-xs sm:text-sm">
+            <button onclick="checkQ5CH2OStep3('A')" class="p-3 rounded-lg border border-slate-300 hover:bg-indigo-50 text-left">
+              <strong>A.</strong> Trigonal Planar & Nonpolar
+            </button>
+            <button onclick="checkQ5CH2OStep3('B')" class="p-3 rounded-lg border ${prog.step3 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'} text-left font-bold">
+              <strong>B.</strong> Trigonal Planar & Polar
+            </button>
+            <button onclick="checkQ5CH2OStep3('C')" class="p-3 rounded-lg border border-slate-300 hover:bg-indigo-50 text-left">
+              <strong>C.</strong> Trigonal Pyramidal & Polar
+            </button>
+            <button onclick="checkQ5CH2OStep3('D')" class="p-3 rounded-lg border border-slate-300 hover:bg-indigo-50 text-left">
+              <strong>D.</strong> Tetrahedral & Nonpolar
+            </button>
+          </div>
+          <div id="q5c_fb3"></div>
+        </div>
+      `;
+    }
+
+    function checkQ5CH2OStep1() {
+      const val = parseInt(document.getElementById('q5c_s1').value, 10);
+      if (val === 12) {
+        unlockStepWithFeedback('Q5-CH2O', 'step1', 'q5c_fb1', true, '4 + 2 + 6 = 12 valence electrons!');
+      } else {
+        unlockStepWithFeedback('Q5-CH2O', 'step1', 'q5c_fb1', false, 'Add 4 (for C) + 2 (for two H atoms) + 6 (for O).');
+      }
+    }
+    function checkQ5CH2OStep2(c) {
+      if (c === 'B') {
+        unlockStepWithFeedback('Q5-CH2O', 'step2', 'q5c_fb2', true, 'Carbon needs 4 total bonds (8 electrons) to complete its octet, requiring a C=O double bond!');
+      } else {
+        unlockStepWithFeedback('Q5-CH2O', 'step2', 'q5c_fb2', false, 'Make sure central Carbon has 4 bonds (an octet of 8 electrons) and uses 2 H atoms and 1 O atom.');
+      }
+    }
+    function checkQ5CH2OStep3(c) {
+      if (c === 'B') {
+        unlockStepWithFeedback(
+          'Q5-CH2O',
+          'step3',
+          'q5c_fb3',
+          true,
+          '3 bonding domains + 0 lone pairs on Carbon = Trigonal Planar! And because Oxygen is much more electronegative than Hydrogen, the C=O dipole does NOT cancel out, making CH₂O Polar!',
+          'CH2O: 12 e-, C=O double bond, Trigonal Planar, Polar'
+        );
+      } else if (c === 'A') {
+        unlockStepWithFeedback('Q5-CH2O', 'step3', 'q5c_fb3', false, 'You got Trigonal Planar right! However, it is NOT nonpolar because the outer atoms are different (Oxygen pulls electrons strongly toward the top, creating a net dipole).');
+      } else {
+        unlockStepWithFeedback('Q5-CH2O', 'step3', 'q5c_fb3', false, 'Count the domains on central Carbon: 3 bonded atoms and 0 lone pairs gives a flat triangle (Trigonal Planar).');
+      }
+    }
+
+    // -------------------- Q6a: Structural Isomers Definition --------------------
+    function buildQ6aHTML(prog) {
+      return `
+        <div class="p-5 rounded-xl border border-slate-200 bg-white step-unlocked">
+          <h4 class="font-bold text-sm text-slate-900 mb-2">Step 1 of 2: Ethanol (CH<sub>3</sub>CH<sub>2</sub>OH) and Dimethyl Ether (CH<sub>3</sub>OCH<sub>3</sub>) both have the formula C<sub>2</sub>H<sub>6</sub>O. What does it mean for two molecules to be <strong>structural isomers</strong>?</h4>
+          <div class="space-y-2 my-3 text-xs sm:text-sm">
+            <button onclick="checkQ6aStep1('wrong')" class="w-full text-left p-3 rounded-lg border border-slate-300 hover:bg-indigo-50">
+              <strong>A.</strong> They have the exact same boiling point and physical properties, just drawn differently on paper.
+            </button>
+            <button onclick="checkQ6aStep1('correct')" class="w-full text-left p-3 rounded-lg border ${prog.step1 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'}">
+              <strong>B.</strong> They have the <strong>same molecular formula</strong> (same exact number and types of atoms: 2 C, 6 H, 1 O), but their atoms are connected in a <strong>different structural bonding arrangement</strong>, giving them <strong>different physical properties</strong> (like boiling points).
+            </button>
+          </div>
+          <div id="q6a_fb1"></div>
+        </div>
+      `;
+    }
+
+    function checkQ6aStep1(c) {
+      if (c === 'correct') {
+        appState.progress['Q6a'].step2 = true;
+        appState.progress['Q6a'].step3 = true;
+        unlockStepWithFeedback('Q6a', 'step1', 'q6a_fb1', true, 'Same molecular formula, different bonding connectivity/structure, and therefore different IMFs and boiling points!', 'Defined structural isomers (same formula, different bonding arrangement)');
+      } else {
+        unlockStepWithFeedback('Q6a', 'step1', 'q6a_fb1', false, 'Never say isomers have the same boiling point! Because their atoms are bonded differently, they have different IMFs and very different boiling points.');
+      }
+    }
+
+    // -------------------- Q6b: Isomer Boiling Points --------------------
+    function buildQ6bHTML(prog) {
+      return `
+        <div class="p-5 rounded-xl border border-slate-200 bg-white step-unlocked">
+          <h4 class="font-bold text-sm text-slate-900 mb-2">Step 1 of 2: Compare the bonds in Ethanol (contains an O-H bond) vs. Dimethyl Ether (only contains C-H and C-O bonds). Which IMF can Ethanol form that Dimethyl Ether CANNOT?</h4>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 my-3 text-xs sm:text-sm">
+            <button onclick="checkQ6bStep1('HB')" class="p-3 rounded-lg border ${prog.step1 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'} font-bold text-left">
+              Hydrogen Bonding (because H is directly bonded to O)
+            </button>
+            <button onclick="checkQ6bStep1('LDF')" class="p-3 rounded-lg border border-slate-300 hover:bg-indigo-50 text-left">
+              London Dispersion Forces
+            </button>
+            <button onclick="checkQ6bStep1('Cov')" class="p-3 rounded-lg border border-slate-300 hover:bg-indigo-50 text-left">
+              More covalent bonds
+            </button>
+          </div>
+          <div id="q6b_fb1"></div>
+        </div>
+
+        <div class="p-5 rounded-xl border border-slate-200 bg-white ${prog.step1 ? 'step-unlocked' : 'step-locked'}">
+          <h4 class="font-bold text-sm text-slate-900 mb-2">Step 2 of 2: Which isomer has the higher boiling point and why?</h4>
+          <div class="space-y-2 my-3 text-xs sm:text-sm">
+            <button onclick="checkQ6bStep2('correct')" class="w-full text-left p-3 rounded-lg border ${prog.step2 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'}">
+              <strong>A.</strong> <strong>Ethanol has a higher boiling point</strong> because its O-H group forms <strong>Hydrogen Bonds</strong>, which are much stronger intermolecular forces than the dipole-dipole/LDFs in dimethyl ether, requiring more heat energy to separate ethanol molecules.
+            </button>
+            <button onclick="checkQ6bStep2('wrong')" class="w-full text-left p-3 rounded-lg border border-slate-300 hover:bg-indigo-50">
+              <strong>B.</strong> Dimethyl ether has a higher boiling point because C-O-C bonds are in the middle of the molecule.
+            </button>
+          </div>
+          <div id="q6b_fb2"></div>
+        </div>
+      `;
+    }
+
+    function checkQ6bStep1(c) {
+      if (c === 'HB') {
+        unlockStepWithFeedback('Q6b', 'step1', 'q6b_fb1', true, 'The O–H bond in Ethanol enables strong Hydrogen Bonding between ethanol molecules!');
+      } else {
+        unlockStepWithFeedback('Q6b', 'step1', 'q6b_fb1', false, 'Look at the O–H bond in Ethanol: H bonded directly to O creates Hydrogen Bonding!');
+      }
+    }
+    function checkQ6bStep2(c) {
+      if (c === 'correct') {
+        appState.progress['Q6b'].step3 = true;
+        unlockStepWithFeedback('Q6b', 'step2', 'q6b_fb2', true, 'Ethanol boils at +78°C while dimethyl ether boils at -24°C—all because of Hydrogen Bonding!', 'Claimed Ethanol has higher BP due to O-H Hydrogen Bonding');
+      } else {
+        unlockStepWithFeedback('Q6b', 'step2', 'q6b_fb2', false, 'Remember: Hydrogen bonding is the strongest intermolecular force between neutral molecules, leading to a much higher boiling point.');
+      }
+    }
+
+    // -------------------- Q7a: CaCl2 Ions in Water vs. Oil --------------------
+    function buildQ7aHTML(prog) {
+      return `
+        <div class="p-5 rounded-xl border border-slate-200 bg-white step-unlocked">
+          <h4 class="font-bold text-sm text-slate-900 mb-2">Step 1 of 2: Classify the electrical charges of Ca<sup>2+</sup> and Cl<sup>-</sup> ions, Water, and Vegetable Oil:</h4>
+          <div class="space-y-2 my-3 text-xs sm:text-sm">
+            <button onclick="checkQ7aStep1('wrong')" class="w-full text-left p-3 rounded-lg border border-slate-300 hover:bg-indigo-50">
+              <strong>A.</strong> CaCl<sub>2</sub> is nonpolar because the positive and negative charges cancel out, so it dissolves in nonpolar oil.
+            </button>
+            <button onclick="checkQ7aStep1('correct')" class="w-full text-left p-3 rounded-lg border ${prog.step1 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'}">
+              <strong>B.</strong> Ca<sup>2+</sup> and Cl<sup>-</sup> are <strong>charged ions</strong> (from an ionic compound), <strong>Water is polar</strong> (has partial &delta;<sup>+</sup> and &delta;<sup>-</sup> charges), and <strong>Vegetable oil is nonpolar</strong> (no charges).
+            </button>
+          </div>
+          <div id="q7a_fb1"></div>
+        </div>
+
+        <div class="p-5 rounded-xl border border-slate-200 bg-white ${prog.step1 ? 'step-unlocked' : 'step-locked'}">
+          <h4 class="font-bold text-sm text-slate-900 mb-2">Step 2 of 2: Which layer do the Ca<sup>2+</sup> and Cl<sup>-</sup> ions dissolve in, and why?</h4>
+          <div class="space-y-2 my-3 text-xs sm:text-sm">
+            <button onclick="checkQ7aStep2('water')" class="w-full text-left p-3 rounded-lg border ${prog.step2 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'}">
+              <strong>A.</strong> They dissolve in the <strong>Water layer</strong> because, by "like dissolves like," the full positive and negative charges of Ca<sup>2+</sup> and Cl<sup>-</sup> are strongly attracted to the partial charges (&delta;<sup>-</sup> and &delta;<sup>+</sup>) of polar water molecules.
+            </button>
+            <button onclick="checkQ7aStep2('oil')" class="w-full text-left p-3 rounded-lg border border-slate-300 hover:bg-indigo-50">
+              <strong>B.</strong> They dissolve in the Vegetable Oil layer.
+            </button>
+          </div>
+          <div id="q7a_fb2"></div>
+        </div>
+      `;
+    }
+
+    function checkQ7aStep1(c) {
+      if (c === 'correct') {
+        unlockStepWithFeedback('Q7a', 'step1', 'q7a_fb1', true, 'Never call an ionic compound like CaCl₂ "nonpolar"! It is made of full positive and negative ions.');
+      } else {
+        unlockStepWithFeedback('Q7a', 'step1', 'q7a_fb1', false, 'Watch out! Neutral ionic formula units still consist of charged ions (Ca²⁺ and Cl⁻), which interact with polar partial charges—not nonpolar oil!');
+      }
+    }
+    function checkQ7aStep2(c) {
+      if (c === 'water') {
+        appState.progress['Q7a'].step3 = true;
+        unlockStepWithFeedback('Q7a', 'step2', 'q7a_fb2', true, 'Charged ions dissolve in polar water via strong ion-dipole attractions!', 'Explained Ca2+ and Cl- ions dissolve in polar water layer');
+      } else {
+        unlockStepWithFeedback('Q7a', 'step2', 'q7a_fb2', false, 'Nonpolar oil has no charges to attract Ca²⁺ and Cl⁻ ions.');
+      }
+    }
+
+    // -------------------- Q7b: Surfactant Structure & Micelles --------------------
+    function buildQ7bHTML(prog) {
+      return `
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center bg-slate-50 p-4 rounded-xl border border-slate-200">
+          <div class="md:col-span-2 text-xs sm:text-sm space-y-1.5 text-slate-700">
+            <p class="font-bold text-slate-900">How Dish Soap (a Surfactant) Mixes Oil and Water:</p>
+            <p>Water is polar and vegetable oil is nonpolar, so they normally stay in separate layers. Adding a surfactant (like dish soap) bridges the two layers by forming micelles.</p>
+          </div>
+          <div>
+            <svg viewBox="0 0 220 110" class="w-48 h-24 mx-auto">
+              <circle cx="45" cy="55" r="18" fill="#38bdf8" stroke="#0284c7" stroke-width="2.5"/>
+              <path d="M 63 55 Q 85 35, 105 55 T 145 55 T 185 55" fill="none" stroke="#eab308" stroke-width="4" stroke-linecap="round"/>
+              <text x="45" y="92" font-size="10" font-weight="bold" fill="#0369a1" text-anchor="middle">Polar Head</text>
+              <text x="130" y="92" font-size="10" font-weight="bold" fill="#a16207" text-anchor="middle">Nonpolar Tail</text>
+            </svg>
+          </div>
+        </div>
+
+        <div class="p-5 rounded-xl border border-slate-200 bg-white step-unlocked">
+          <h4 class="font-bold text-sm text-slate-900 mb-2">Step 1 of 2: Describe the two parts of a surfactant molecule:</h4>
+          <div class="space-y-2 my-3 text-xs sm:text-sm">
+            <button onclick="checkQ7bStep1('correct')" class="w-full text-left p-3 rounded-lg border ${prog.step1 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'}">
+              <strong>A.</strong> A surfactant has a <strong>polar hydrophilic ("water-loving") head</strong> and a <strong>nonpolar hydrophobic ("water-fearing") hydrocarbon tail</strong>.
+            </button>
+            <button onclick="checkQ7bStep1('wrong')" class="w-full text-left p-3 rounded-lg border border-slate-300 hover:bg-indigo-50">
+              <strong>B.</strong> A surfactant molecule is neither polar nor nonpolar, so it dissolves everything.
+            </button>
+          </div>
+          <div id="q7b_fb1"></div>
+        </div>
+
+        <div class="p-5 rounded-xl border border-slate-200 bg-white ${prog.step1 ? 'step-unlocked' : 'step-locked'}">
+          <h4 class="font-bold text-sm text-slate-900 mb-2">Step 2 of 2: How does this dual structure allow polar water and nonpolar oil to mix?</h4>
+          <div class="space-y-2 my-3 text-xs sm:text-sm">
+            <button onclick="checkQ7bStep2('correct')" class="w-full text-left p-3 rounded-lg border ${prog.step2 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'}">
+              <strong>A.</strong> The <strong>nonpolar hydrophobic tails</strong> attract and embed into the <strong>nonpolar oil</strong> droplets, while the <strong>polar hydrophilic heads</strong> face outward and attract the <strong>polar water</strong> molecules, connecting the two substances so they can mix.
+            </button>
+            <button onclick="checkQ7bStep2('wrong')" class="w-full text-left p-3 rounded-lg border border-slate-300 hover:bg-indigo-50">
+              <strong>B.</strong> The hydrophilic heads stick to the oil and the hydrophobic tails stick to the water.
+            </button>
+          </div>
+          <div id="q7b_fb2"></div>
+        </div>
+      `;
+    }
+
+    function checkQ7bStep1(c) {
+      if (c === 'correct') {
+        unlockStepWithFeedback('Q7b', 'step1', 'q7b_fb1', true, 'Surfactants are amphiphilic: one polar hydrophilic head and one nonpolar hydrophobic tail.');
+      } else {
+        unlockStepWithFeedback('Q7b', 'step1', 'q7b_fb1', false, 'A surfactant actually has BOTH a polar region (head) and a nonpolar region (tail) in the same molecule!');
+      }
+    }
+    function checkQ7bStep2(c) {
+      if (c === 'correct') {
+        appState.progress['Q7b'].step3 = true;
+        unlockStepWithFeedback('Q7b', 'step2', 'q7b_fb2', true, 'Hydrophobic tails trap the nonpolar oil inside while hydrophilic heads interact with polar water!', 'Explained hydrophilic head (water) + hydrophobic tail (oil) micelle action');
+      } else {
+        unlockStepWithFeedback('Q7b', 'step2', 'q7b_fb2', false, 'Remember: "Hydrophilic" means water-loving (attracts polar water), and "Hydrophobic" means water-fearing (attracts nonpolar oil)!');
+      }
+    }
+
+    // =========================================================================
+    // 7. RETEST QUALIFICATION TICKET GENERATOR
+    // =========================================================================
+    function renderTicketView() {
+      const container = document.getElementById('printableTicketCard');
+      const totalSelected = appState.selectedIds.length;
+      const completedCount = appState.selectedIds.filter(id => appState.progress[id].completed).length;
+      const isQualified = completedCount === totalSelected;
+      const nowStr = new Date().toLocaleString([], { dateStyle: 'medium', timeStyle: 'short' });
+      const mp = appState.mathParams;
+
+      // Verification signature hash
+      const verHash = computeHash(`${appState.studentName}-${appState.seedCode}-${completedCount}-${totalSelected}`)
+        .toString(16)
+        .toUpperCase()
+        .slice(0, 6);
+      const verificationStamp = `${appState.seedCode}-${completedCount}OF${totalSelected}-${verHash}`;
+
+      let rowsHTML = '';
+      if (totalSelected === 0) {
+        rowsHTML = `
+          <tr>
+            <td colspan="3" class="p-4 text-center text-sm font-semibold text-emerald-800 bg-emerald-50">
+              No missed questions selected — Student recorded mastery on original paper assessment.
+            </td>
+          </tr>
+        `;
+      } else {
+        appState.selectedIds.forEach(qId => {
+          const meta = QUESTIONS_META.find(q => q.id === qId);
+          const prog = appState.progress[qId];
+          let mathNote = '';
+          if (qId === 'Q3b') {
+            mathNote = `<div class="mt-1 text-xs font-mono text-indigo-800 bg-indigo-50 px-2 py-1 rounded">Unique Math Prompt: ${mp.oilGrams}g oil (${mp.oilMg} mg) & ${mp.peelMassPerOrange}g peel/orange → <strong>${mp.totalPeelGrams}g peel = ${mp.exactOranges} oranges</strong></div>`;
+          } else if (qId === 'Q3d') {
+            mathNote = `<div class="mt-1 text-xs font-mono text-indigo-800 bg-indigo-50 px-2 py-1 rounded">Unique Math Prompt: P_N2 = ${mp.n2Pressure} atm (${mp.pressurePerParticle} atm/particle) → <strong>P_total = ${mp.totalPressure} atm, P_ethanol = ${mp.ethanolPressure} atm</strong></div>`;
+          }
+
+          rowsHTML += `
+            <tr class="border-b border-slate-200 align-top">
+              <td class="p-3 font-bold text-xs sm:text-sm text-slate-900 whitespace-nowrap">
+                ${meta.title}
+                <div class="text-[11px] font-normal text-slate-500">${meta.pts}</div>
+              </td>
+              <td class="p-3 text-xs">
+                ${
+                  prog.completed
+                    ? '<span class="inline-block px-2 py-0.5 rounded-full font-bold bg-emerald-100 text-emerald-800">✓ All Steps Verified</span>'
+                    : '<span class="inline-block px-2 py-0.5 rounded-full font-bold bg-amber-100 text-amber-800">⏳ Incomplete</span>'
+                }
+                ${mathNote}
+              </td>
+              <td class="p-3 text-xs sm:text-sm text-slate-800">
+                ${
+                  prog.reflection
+                    ? `<p class="italic">"${escapeHTML(prog.reflection)}"</p>`
+                    : '<span class="text-rose-600 font-semibold">Reflection not yet submitted.</span>'
+                }
+              </td>
+            </tr>
+          `;
+        });
+      }
+
+      container.innerHTML = `
+        <div class="flex flex-wrap items-start justify-between gap-4 pb-6 border-b-2 border-slate-800">
+          <div>
+            <div class="text-xs font-extrabold uppercase tracking-widest text-indigo-700">Pre-AP Chemistry • Unit 2 Summative Assessment</div>
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-1">Test Corrections & Retest Qualification Ticket</h2>
+            <p class="text-xs text-slate-500 mt-0.5">Staple this completed verification report to your original graded paper test to unlock your Unit 2 Retest.</p>
+          </div>
+          <div class="text-right bg-slate-100 p-3 rounded-xl border border-slate-300">
+            <div class="text-[10px] font-bold uppercase tracking-wider text-slate-500">Verification Code</div>
+            <div class="mono font-extrabold text-sm sm:text-base text-slate-900">${verificationStamp}</div>
+            <div class="text-[11px] text-slate-600 mt-0.5">${nowStr}</div>
+          </div>
+        </div>
+
+        <!-- Student Metadata Grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-200 text-xs sm:text-sm">
+          <div>
+            <div class="text-slate-500 font-semibold">Student Name</div>
+            <div class="font-extrabold text-slate-900 text-base">${escapeHTML(appState.studentName || 'Not Entered')}</div>
+          </div>
+          <div>
+            <div class="text-slate-500 font-semibold">Class Section</div>
+            <div class="font-bold text-slate-900">${escapeHTML(appState.studentSection)}</div>
+          </div>
+          <div>
+            <div class="text-slate-500 font-semibold">Original Paper Score</div>
+            <div class="font-bold text-slate-900">${appState.paperScore ? `${escapeHTML(appState.paperScore)} / 40` : '— / 40'}</div>
+          </div>
+          <div>
+            <div class="text-slate-500 font-semibold">Retest Qualification Status</div>
+            <div class="font-extrabold ${isQualified ? 'text-emerald-700' : 'text-amber-700'}">
+              ${isQualified ? `✓ QUALIFIED (${completedCount}/${totalSelected} Fixed)` : `IN PROGRESS (${completedCount}/${totalSelected} Fixed)`}
+            </div>
+          </div>
+        </div>
+
+        <!-- Reworked Questions & Reflections Table -->
+        <div>
+          <h3 class="text-xs font-extrabold uppercase tracking-wider text-slate-700 mb-2">
+            Completed Question Walkthroughs, Unique Math Verification, & Paper Test Reflections
+          </h3>
+          <div class="overflow-x-auto border border-slate-300 rounded-xl">
+            <table class="w-full text-left border-collapse">
+              <thead class="bg-slate-100 border-b border-slate-300 text-xs font-extrabold uppercase text-slate-700">
+                <tr>
+                  <th class="p-3 w-1/4">Question</th>
+                  <th class="p-3 w-1/3">Interactive Walkthrough & Unique Math</th>
+                  <th class="p-3">Student's Paper Test Mistake & Reflection</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${rowsHTML}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- Teacher Sign-Off Footer -->
+        <div class="pt-6 border-t border-slate-300 grid grid-cols-1 sm:grid-cols-2 gap-6 text-xs text-slate-600">
+          <div>
+            <p class="font-bold text-slate-800">Student Honor Pledge:</p>
+            <p class="mt-1">I worked through each step-by-step chemistry module and calculated my own unique problem values to prepare for the Unit 2 Retest.</p>
+          </div>
+          <div class="flex flex-col justify-end sm:text-right">
+            <div class="inline-block border-b border-slate-400 pb-6 mb-1 font-semibold text-slate-800">
+              Teacher Approval Signature & Retest Date: ___________________________
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function copyTicketSummary() {
+      const mp = appState.mathParams;
+      const totalSelected = appState.selectedIds.length;
+      const completedCount = appState.selectedIds.filter(id => appState.progress[id].completed).length;
+
+      const lines = [
+        `UNIT 2 CHEMISTRY TEST CORRECTIONS & RETEST TICKET`,
+        `Student: ${appState.studentName} (${appState.studentSection})`,
+        `Original Score: ${appState.paperScore || 'N/A'} / 40 | Math Seed: ${appState.seedCode}`,
+        `Completed Corrections: ${completedCount} / ${totalSelected}`,
+        `----------------------------------------`
+      ];
+
+      appState.selectedIds.forEach(qId => {
+        const prog = appState.progress[qId];
+        let extra = '';
+        if (qId === 'Q3b') extra = ` [Math: ${mp.oilGrams}g oil, ${mp.peelMassPerOrange}g peel -> ${mp.exactOranges} oranges]`;
+        if (qId === 'Q3d') extra = ` [Math: P_N2=${mp.n2Pressure} atm -> P_total=${mp.totalPressure} atm, P_eth=${mp.ethanolPressure} atm]`;
+        lines.push(`${qId} (${prog.completed ? 'DONE' : 'INCOMPLETE'})${extra}: ${prog.reflection || 'No reflection'}`);
+      });
+
+      const textToCopy = lines.join('\n');
+      const tempArea = document.createElement('textarea');
+      tempArea.value = textToCopy;
+      document.body.appendChild(tempArea);
+      tempArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(tempArea);
+
+      showToast('Summary copied to clipboard!', '📋');
+    }
+
+    // =========================================================================
+    // 7b. DIGITAL GOOGLE SHEET SUBMISSION
+    // =========================================================================
+    const DEFAULT_GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzzRX-NOgNCJQOptua1X1LJkt92CPDNsTviQH8gtTisnCZCH1PVxf19VlRSZZ7RZ9sHhw/exec";
+
+    function toggleScriptUrlModal() {
+      const modal = document.getElementById('scriptUrlModal');
+      modal.classList.toggle('hidden');
+      if (!modal.classList.contains('hidden')) {
+        document.getElementById('scriptUrlInput').value = localStorage.getItem('chem_retest_script_url') || DEFAULT_GOOGLE_SCRIPT_URL;
+      }
+    }
+
+    function promptForScriptUrl() {
+      toggleScriptUrlModal();
+    }
+
+    function saveScriptUrlFromModal() {
+      const input = document.getElementById('scriptUrlInput').value.trim();
+      if (input) {
+        localStorage.setItem('chem_retest_script_url', input);
+        showToast('Google Sheet Web App URL saved!', '✓');
+      } else {
+        localStorage.removeItem('chem_retest_script_url');
+        showToast('Using default Google Sheet URL', 'ℹ');
+      }
+      toggleScriptUrlModal();
+    }
+
+    async function submitTicketDigitally() {
+      const scriptUrl = localStorage.getItem('chem_retest_script_url') || DEFAULT_GOOGLE_SCRIPT_URL;
+      if (!scriptUrl) {
+        showToast('Please set your Google Sheet Web App URL first.', '⚠️');
+        toggleScriptUrlModal();
+        return;
+      }
+
+      if (!appState.studentName || appState.studentName.trim() === '') {
+        showToast('Please enter your full name before submitting.', '⚠️');
+        switchView('setup');
+        return;
+      }
+
+      const totalSelected = appState.selectedIds.length;
+      const completedCount = appState.selectedIds.filter(id => appState.progress[id].completed).length;
+      const isQualified = completedCount === totalSelected;
+
+      if (!isQualified) {
+        const confirmIncomplete = confirm(`You have only completed ${completedCount} of ${totalSelected} questions. Are you sure you want to submit your ticket in progress?`);
+        if (!confirmIncomplete) return;
+      }
+
+      const mp = appState.mathParams;
+      const verHash = computeHash(`${appState.studentName}-${appState.seedCode}-${completedCount}-${totalSelected}`)
+        .toString(16)
+        .toUpperCase()
+        .slice(0, 6);
+      const verificationStamp = `${appState.seedCode}-${completedCount}OF${totalSelected}-${verHash}`;
+
+      // Build structured summaries
+      const questionsDone = [];
+      const reflectionsList = [];
+      appState.selectedIds.forEach(qId => {
+        const prog = appState.progress[qId];
+        questionsDone.push(`${qId}:${prog.completed ? 'DONE' : 'INCOMPLETE'}`);
+        if (prog.reflection) {
+          reflectionsList.push(`[${qId}]: "${prog.reflection}"`);
+        }
+      });
+
+      const mathSummary = `Q3b: ${mp.oilGrams}g oil -> ${mp.totalPeelGrams}g peel (${mp.exactOranges} oranges) | Q3d: P_N2=${mp.n2Pressure} atm -> P_tot=${mp.totalPressure} atm, P_eth=${mp.ethanolPressure} atm`;
+
+      const payload = {
+        studentName: appState.studentName.trim(),
+        studentSection: appState.studentSection,
+        paperScore: appState.paperScore || 'N/A',
+        status: isQualified ? 'QUALIFIED' : `IN PROGRESS (${completedCount}/${totalSelected})`,
+        verificationStamp: verificationStamp,
+        completedSummary: `${completedCount}/${totalSelected} Questions Reworked (${questionsDone.join(', ')})`,
+        mathSummary: mathSummary,
+        reflectionsSummary: reflectionsList.join(' | ')
+      };
+
+      const btn = document.getElementById('submitDigitalBtn');
+      const btnText = document.getElementById('submitDigitalBtnText');
+      btn.disabled = true;
+      btnText.textContent = 'Submitting to Sheet...';
+
+      try {
+        await fetch(scriptUrl, {
+          method: 'POST',
+          mode: 'no-cors',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+
+        // Mode 'no-cors' succeeds upon network transmission
+        btn.classList.remove('bg-emerald-600', 'hover:bg-emerald-700');
+        btn.classList.add('bg-slate-700', 'cursor-default');
+        btnText.textContent = '✓ Submitted to Google Sheet!';
+        showToast('Ticket submitted successfully to your teacher!', '🎉');
+      } catch (err) {
+        console.error('Submission error:', err);
+        btn.disabled = false;
+        btnText.textContent = '🚀 Retry Submission';
+        alert('Could not submit digitally. Please check your internet connection or use "Copy Summary Text" / "Print Ticket" instead.');
+      }
+    }
+
+    // =========================================================================
+    // 8. UTILITIES (MODALS, TOAST, ESCAPE HTML)
+    // =========================================================================
+    function toggleReferenceModal() {
+      const modal = document.getElementById('referenceModal');
+      modal.classList.toggle('hidden');
+    }
+
+    let toastTimeout = null;
+    function showToast(msg, icon = '✓') {
+      const banner = document.getElementById('toastBanner');
+      document.getElementById('toastMessage').textContent = msg;
+      document.getElementById('toastIcon').textContent = icon;
+      banner.classList.remove('hidden');
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        banner.classList.add('hidden');
+      }, 3800);
+    }
+
+    function escapeHTML(str) {
+      return String(str || '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    // Initialize on load
+    window.onload = function () {
+      generateMathParamsFromName('Preview');
+      renderSetupGrid();
+    };
+  </script>
+</body>
+</html>
