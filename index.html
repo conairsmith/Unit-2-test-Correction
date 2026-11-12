@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -301,25 +301,6 @@
             </svg>
             <span id="submitDigitalBtnText">🚀 Submit to Teacher (Google Sheet)</span>
           </button>
-          <button onclick="promptForScriptUrl()" title="Configure Google Sheet Webhook URL" class="px-3 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 border border-slate-300 text-slate-700 text-xs font-semibold flex items-center gap-1.5 transition">
-            <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
-            </svg>
-            <span>Sheet URL</span>
-          </button>
-          <button onclick="copyTicketSummary()" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-900 text-white font-semibold text-sm flex items-center gap-2 shadow">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 5H6a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2v-1M8 5a2 2 0 002 2h2a2 2 0 002-2M8 5a2 2 0 012-2h2a2 2 0 012 2m0 0h2a2 2 0 012 2v3m2 4H10m0 0l3-3m-3 3l3 3"/>
-            </svg>
-            <span>Copy Summary Text</span>
-          </button>
-          <button onclick="window.print()" class="px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-sm flex items-center gap-2 shadow-md">
-            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
-            </svg>
-            <span>Print / Save PDF Ticket</span>
-          </button>
         </div>
       </div>
 
@@ -330,6 +311,19 @@
     </section>
 
   </main>
+
+  <!-- Discreet Footer with hidden teacher configuration button -->
+  <footer class="mt-auto py-6 border-t border-slate-200/80 text-xs text-slate-400 no-print">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+      <span>Pre-AP Chemistry • Unit 2 Test Corrections</span>
+      <button onclick="promptForScriptUrl()" title="Teacher Settings" class="text-slate-300 hover:text-slate-500 transition p-1.5 rounded-lg" aria-label="Teacher Settings">
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/>
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+        </svg>
+      </button>
+    </div>
+  </footer>
 
   <!-- ==================== MODAL: GOOGLE SHEET CONFIGURATION ==================== -->
   <div id="scriptUrlModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 hidden flex items-center justify-center p-4 no-print">
@@ -414,7 +408,7 @@
                 <td class="p-3">2</td>
                 <td class="p-3">0</td>
                 <td class="p-3 font-semibold text-indigo-700">Linear</td>
-                <td class="p-3">Nonpolar if outer atoms are identical (e.g., $\text{CO}_2$); Polar if different.</td>
+                <td class="p-3">Nonpolar if outer atoms are identical (e.g., CO<sub>2</sub>); Polar if different.</td>
               </tr>
               <tr>
                 <td class="p-3 font-bold">3</td>
@@ -475,7 +469,7 @@
           <ul class="text-xs sm:text-sm space-y-2 text-slate-700">
             <li><strong>"Like Dissolves Like":</strong> Polar & ionic substances dissolve in polar solvents (water). Nonpolar substances dissolve in nonpolar solvents (oil, limonene, isoprene).</li>
             <li><strong>Distillation vs. Electrolysis:</strong> Distillation uses heat to break <em>intermolecular forces (IMFs)</em> between molecules (physical change). Electrolysis uses electricity to break <em>intramolecular covalent bonds</em> inside molecules (chemical change).</li>
-            <li><strong>Chromatography ($R_f$):</strong> With polar water as the mobile phase, a higher $R_f$ means the dye traveled farther with the water, so the dye is <strong>more polar</strong>.</li>
+            <li><strong>Chromatography (R<sub>f</sub>):</strong> With polar water as the mobile phase, a higher R<sub>f</sub> means the dye traveled farther with the water, so the dye is <strong>more polar</strong>.</li>
           </ul>
         </div>
       </div>
@@ -518,7 +512,12 @@
         oilGrams: 2.4,
         peelMassPerOrange: 80,
         n2Pressure: 0.84,
-        pressurePerParticle: 0.12
+        pressurePerParticle: 0.12,
+        oilMg: 2400,
+        totalPeelGrams: 240,
+        exactOranges: 3.0,
+        totalPressure: 1.80,
+        ethanolPressure: 0.48
       },
       // Progress tracking per question: { step1: bool, step2: bool, step3: bool, reflection: string, completed: bool, studentAnswers: {} }
       progress: {}
@@ -623,12 +622,12 @@
       // Clean multiples of 7 for N2 partial pressure (0.56, 0.70, 0.84, 1.05, 1.26 atm)
       const pPerParticleOptions = [0.08, 0.10, 0.12, 0.15, 0.18];
 
-      const oilGrams = oilOptions[hash % oilOptions.length];
-      const peelMassPerOrange = peelOptions[(hash >> 3) % peelOptions.length];
-      const pressurePerParticle = pPerParticleOptions[(hash >> 6) % pPerParticleOptions.length];
+      const oilGrams = oilOptions[(hash >>> 0) % oilOptions.length];
+      const peelMassPerOrange = peelOptions[(hash >>> 3) % peelOptions.length];
+      const pressurePerParticle = pPerParticleOptions[(hash >>> 6) % pPerParticleOptions.length];
       const n2Pressure = Number((7 * pressurePerParticle).toFixed(2));
 
-      const codeHex = (hash % 9000 + 1000).toString(10);
+      const codeHex = ((hash >>> 0) % 9000 + 1000).toString(10);
       appState.seedCode = `U2-${codeHex}`;
       appState.mathParams = {
         oilGrams,
@@ -662,12 +661,6 @@
       const nameVal = document.getElementById('studentNameInput').value.trim();
       appState.studentName = nameVal;
       generateMathParamsFromName(nameVal || 'Student');
-    }
-
-    function updateSeedPreview() {
-      const nameVal = document.getElementById('studentNameInput').value.trim();
-      appState.studentName = nameVal;
-      generateMathParamsFromName(nameVal || 'Preview');
     }
 
     // =========================================================================
@@ -944,12 +937,13 @@
 
     function getGasBoxSVG() {
       return `
-        <svg viewBox="0 0 320 165" class="w-full max-w-md mx-auto bg-white rounded-xl border-2 border-slate-700">
+        <svg viewBox="0 0 380 165" class="w-full max-w-md mx-auto bg-white rounded-xl border-2 border-slate-700 shadow-sm overflow-hidden">
+          <!-- Gas container area: 0 to 255 -->
           <!-- 7 Nitrogen (blue diatomic) -->
           <g fill="#38bdf8" stroke="#0369a1" stroke-width="1.5">
             <circle cx="45" cy="40" r="6"/><circle cx="55" cy="45" r="6"/>
             <circle cx="135" cy="30" r="6"/><circle cx="145" cy="34" r="6"/>
-            <circle cx="195" cy="60" r="6"/><circle cx="207" cy="60" r="6"/>
+            <circle cx="190" cy="60" r="6"/><circle cx="202" cy="60" r="6"/>
             <circle cx="105" cy="85" r="6"/><circle cx="117" cy="85" r="6"/>
             <circle cx="145" cy="70" r="6"/><circle cx="145" cy="82" r="6"/>
             <circle cx="40" cy="125" r="6"/><circle cx="50" cy="118" r="6"/>
@@ -958,7 +952,7 @@
           <!-- 3 Oxygen (red diatomic) -->
           <g fill="#ef4444" stroke="#991b1b" stroke-width="1.5">
             <circle cx="95" cy="35" r="6"/><circle cx="103" cy="27" r="6"/>
-            <circle cx="235" cy="95" r="6"/><circle cx="247" cy="95" r="6"/>
+            <circle cx="225" cy="95" r="6"/><circle cx="237" cy="95" r="6"/>
             <circle cx="120" cy="135" r="6"/><circle cx="130" cy="128" r="6"/>
           </g>
           <!-- 4 Ethanol (white ovals) -->
@@ -966,20 +960,23 @@
             <ellipse cx="42" cy="22" rx="10" ry="5" transform="rotate(25 42 22)"/>
             <ellipse cx="95" cy="62" rx="6" ry="11"/>
             <ellipse cx="82" cy="135" rx="11" ry="5" transform="rotate(15 82 135)"/>
-            <ellipse cx="225" cy="132" rx="11" ry="5" transform="rotate(-40 225 132)"/>
+            <ellipse cx="215" cy="132" rx="11" ry="5" transform="rotate(-40 215 132)"/>
           </g>
           <!-- 1 Limonene (rectangle) -->
-          <rect x="215" y="20" width="24" height="14" fill="#fef08a" stroke="#854d0e" stroke-width="1.8"/>
-          <!-- Legend on right -->
-          <g font-family="Inter, sans-serif" font-size="10" font-weight="600" fill="#1e293b">
-            <circle cx="270" cy="35" r="5" fill="#38bdf8" stroke="#0369a1"/>
-            <text x="280" y="38">7 N₂</text>
-            <circle cx="270" cy="60" r="5" fill="#ef4444" stroke="#991b1b"/>
-            <text x="280" y="63">3 O₂</text>
-            <ellipse cx="270" cy="85" rx="7" ry="4" fill="#f8fafc" stroke="#334155"/>
-            <text x="280" y="88">4 Ethanol</text>
-            <rect x="263" y="105" width="14" height="9" fill="#fef08a" stroke="#854d0e"/>
-            <text x="280" y="113">1 Limonene</text>
+          <rect x="205" y="20" width="24" height="14" fill="#fef08a" stroke="#854d0e" stroke-width="1.8"/>
+
+          <!-- Dedicated Legend Panel on right -->
+          <rect x="255" y="0" width="125" height="165" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+          <g font-family="Inter, sans-serif" font-weight="600" fill="#1e293b">
+            <text x="268" y="22" font-size="9" font-weight="700" letter-spacing="0.5" fill="#64748b">KEY (15 PARTICLES)</text>
+            <circle cx="273" cy="44" r="5" fill="#38bdf8" stroke="#0369a1"/>
+            <text x="285" y="47" font-size="11">7 N₂ (Nitrogen)</text>
+            <circle cx="273" cy="70" r="5" fill="#ef4444" stroke="#991b1b"/>
+            <text x="285" y="73" font-size="11">3 O₂ (Oxygen)</text>
+            <ellipse cx="273" cy="96" rx="7" ry="4" fill="#f8fafc" stroke="#334155" stroke-width="1.5"/>
+            <text x="285" y="99" font-size="11">4 Ethanol</text>
+            <rect x="266" y="120" width="14" height="9" fill="#fef08a" stroke="#854d0e" stroke-width="1.2"/>
+            <text x="285" y="128" font-size="11">1 Limonene</text>
           </g>
         </svg>
       `;
@@ -1152,7 +1149,10 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center bg-slate-50 p-4 rounded-xl border border-slate-200">
           <div class="md:col-span-2 space-y-2 text-sm text-slate-700">
             <p class="font-bold text-slate-900">Original Test Prompt:</p>
-            <p>Limonene (C<sub>10</sub>H<sub>16</sub>) is a nonpolar substance found in citrus fruits like oranges and lemons. Select the term or terms that apply to a sample of <strong>pure limonene</strong> and justify your answer.</p>
+            <p>Limonene (C<sub>10</sub>H<sub>16</sub>) is a <strong>nonpolar substance</strong> found in citrus fruits like oranges and lemons. Select the term or terms that apply to a sample of <strong>pure limonene</strong> and justify your answer.</p>
+            <p class="text-xs text-indigo-900 bg-indigo-50 border border-indigo-200 p-2 rounded-lg">
+              <strong>Given on Test:</strong> The prompt explicitly states that limonene is a <strong>nonpolar substance</strong> (and its structure is made exclusively of C and H atoms). Keep this in mind when answering Question 2!
+            </p>
             <p class="text-xs text-amber-800 bg-amber-100/70 p-2.5 rounded-lg">
               <strong>Common Class Mistake:</strong> Calling the CH<sub>2</sub> or CH<sub>3</sub> parts inside the ring "different compounds mixed together." Look at the lines connecting every atom!
             </p>
@@ -1187,7 +1187,7 @@
               <strong>A.</strong> Limonene contains different molecules like CH<sub>3</sub> and H<sub>2</sub>C mixed together in a ring.
             </button>
             <button onclick="checkQ1Step2('B')" class="w-full text-left p-3 rounded-lg border ${prog.step2 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'} transition">
-              <strong>B.</strong> Limonene is a <strong>compound</strong> because it is made of two different elements (C and H) chemically bonded, and a <strong>molecule</strong> because multiple nonmetal atoms are covalently bonded together as a single unit. Since it is pure limonene, it is not a mixture.
+              <strong>B.</strong> Limonene is a compound because it is made of two different elements (C and H) chemically bonded, and a molecule because multiple nonmetal atoms are covalently bonded together as a single unit. Since it is pure limonene, it is not a mixture.
             </button>
             <button onclick="checkQ1Step2('C')" class="w-full text-left p-3 rounded-lg border border-slate-300 hover:bg-indigo-50 transition">
               <strong>C.</strong> Limonene is an element and an atom because carbon and hydrogen are on the Periodic Table.
@@ -1231,6 +1231,9 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-slate-50 p-4 rounded-xl border border-slate-200 items-center">
           <div class="md:col-span-2 text-xs sm:text-sm space-y-1.5 text-slate-700">
             <p class="font-bold text-slate-900">Student Claims from the Balloon Demonstration:</p>
+            <p class="text-xs text-indigo-900 bg-indigo-50 border border-indigo-200 p-2 rounded-lg">
+              <strong>Given on Test:</strong> The test explicitly states that <strong>limonene is a nonpolar substance</strong>.
+            </p>
             <p>• <strong>Angel:</strong> "Limonene molecules repelled the isoprene molecules because one is polar and the other is nonpolar. This repulsion caused the balloon to pop."</p>
             <p>• <strong>Kayla:</strong> "Limonene particles hit the balloon with enough force to pop it because limonene particles are larger than isoprene particles."</p>
             <p>• <strong>Jacob:</strong> "Limonene particles dissolved the isoprene molecules because they are both nonpolar particles and 'like dissolves like.'"</p>
@@ -1240,13 +1243,13 @@
 
         <!-- Step 1 -->
         <div class="p-5 rounded-xl border border-slate-200 bg-white step-unlocked">
-          <h4 class="font-bold text-sm text-slate-900 mb-2">Step 1 of 3: Look at the chemical structures of Limonene (C<sub>10</sub>H<sub>16</sub>) and Isoprene (C<sub>5</sub>H<sub>8</sub>). What is their polarity?</h4>
+          <h4 class="font-bold text-sm text-slate-900 mb-2">Step 1 of 3: The test states that Limonene is nonpolar. Looking at the chemical structure of Isoprene (C<sub>5</sub>H<sub>8</sub>, composed only of C and H), what is the polarity of both substances?</h4>
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 my-3 text-xs sm:text-sm">
             <button onclick="checkQ2aStep1('A')" class="p-3 rounded-lg border border-slate-300 hover:bg-indigo-50 text-left">
               <strong>A.</strong> Limonene is polar and Isoprene is nonpolar.
             </button>
             <button onclick="checkQ2aStep1('B')" class="p-3 rounded-lg border ${prog.step1 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'} text-left">
-              <strong>B.</strong> Both are <strong>nonpolar</strong> hydrocarbons (made only of C and H).
+              <strong>B.</strong> Both are nonpolar hydrocarbons (made only of C and H).
             </button>
             <button onclick="checkQ2aStep1('C')" class="p-3 rounded-lg border border-slate-300 hover:bg-indigo-50 text-left">
               <strong>C.</strong> Both are polar because they have double bonds.
@@ -1266,7 +1269,7 @@
               <strong>Agree with Kayla:</strong> The larger mass of limonene molecules acts like tiny bullets that pierce the rubber.
             </button>
             <button onclick="checkQ2aStep2('Jacob')" class="w-full text-left p-3 rounded-lg border ${prog.step2 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'}">
-              <strong>Agree with Jacob:</strong> Since both limonene and isoprene are nonpolar, limonene forms LDF attractions with isoprene and <strong>dissolves</strong> the rubber ("like dissolves like"), weakening the stretched balloon wall until it pops!
+              <strong>Agree with Jacob:</strong> Since both limonene and isoprene are nonpolar, limonene forms LDF attractions with isoprene and dissolves the rubber ("like dissolves like"), weakening the stretched balloon wall until it pops!
             </button>
           </div>
           <div id="q2a_fb2"></div>
@@ -1280,7 +1283,7 @@
               <strong>A.</strong> Angel is wrong because both are polar, and Kayla is wrong because isoprene is larger than limonene.
             </button>
             <button onclick="checkQ2aStep3('correct')" class="w-full text-left p-3 rounded-lg border ${prog.step3 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'}">
-              <strong>B.</strong> Angel is wrong because <strong>neither molecule is polar</strong> (and polar/nonpolar liquids like water on a balloon just bead up rather than popping it). Kayla is wrong because the physical impact force of liquid droplets (like throwing water or sand) does not pop a balloon—intermolecular dissolving does.
+              <strong>B.</strong> Angel is wrong because neither molecule is polar (and polar/nonpolar liquids like water on a balloon just bead up rather than popping it). Kayla is wrong because the physical impact force of liquid droplets (like throwing water or sand) does not pop a balloon—intermolecular dissolving does.
             </button>
           </div>
           <div id="q2a_fb3"></div>
@@ -1320,7 +1323,7 @@
               <strong>A.</strong> Yes, any molecule with H atoms can form hydrogen bonds.
             </button>
             <button onclick="checkQ2bStep1('B')" class="w-full text-left p-3 rounded-lg border ${prog.step1 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'}">
-              <strong>B.</strong> <strong>No!</strong> Hydrogen bonding ONLY occurs when H is directly bonded to highly electronegative <strong>N, O, or F</strong>. Since Isoprene only has C-C and C-H bonds, it is completely nonpolar.
+              <strong>B.</strong> No! Hydrogen bonding ONLY occurs when H is directly bonded to highly electronegative N, O, or F. Since Isoprene only has C-C and C-H bonds, it is completely nonpolar.
             </button>
           </div>
           <div id="q2b_fb1"></div>
@@ -1329,7 +1332,7 @@
         <div class="p-5 rounded-xl border border-slate-200 bg-white ${prog.step1 ? 'step-unlocked' : 'step-locked'}">
           <h4 class="font-bold text-sm text-slate-900 mb-2">Step 2 of 2: Which intermolecular force(s) exist between nonpolar isoprene molecules?</h4>
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 my-3 text-xs sm:text-sm">
-            <button onclick="checkQ2bStep2('LDF')" class="p-3 rounded-lg border ${prog.step2 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'} text-left font-semibold">
+            <button onclick="checkQ2bStep2('LDF')" class="p-3 rounded-lg border ${prog.step2 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'} text-left">
               Only London Dispersion Forces (LDFs)
             </button>
             <button onclick="checkQ2bStep2('DD')" class="p-3 rounded-lg border border-slate-300 hover:bg-indigo-50 text-left">
@@ -1367,7 +1370,7 @@
           <h4 class="font-bold text-sm text-slate-900 mb-2">Step 1 of 2: Both Limonene (C<sub>10</sub>H<sub>16</sub>) and Isoprene (C<sub>5</sub>H<sub>8</sub>) are nonpolar and only have LDFs. What determines which one has stronger LDFs?</h4>
           <div class="space-y-2 my-3 text-xs sm:text-sm">
             <button onclick="checkQ2cStep1('A')" class="w-full text-left p-3 rounded-lg border ${prog.step1 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'}">
-              <strong>A.</strong> <strong>Limonene</strong> (C<sub>10</sub>H<sub>16</sub>) is a larger molecule with <strong>more total electrons</strong> (76 e<sup>-</sup> vs. 38 e<sup>-</sup> in isoprene), creating a more polarizable electron cloud and <strong>stronger London Dispersion Forces</strong>.
+              <strong>A.</strong> Limonene (C<sub>10</sub>H<sub>16</sub>) is a larger molecule with more total electrons (76 e<sup>-</sup> vs. 38 e<sup>-</sup> in isoprene), creating a more polarizable electron cloud and stronger London Dispersion Forces.
             </button>
             <button onclick="checkQ2cStep1('B')" class="w-full text-left p-3 rounded-lg border border-slate-300 hover:bg-indigo-50">
               <strong>B.</strong> Isoprene has stronger LDFs because smaller molecules pack closer together.
@@ -1383,7 +1386,7 @@
               <strong>A.</strong> Stronger LDFs mean a lower boiling point because the bonds break easily.
             </button>
             <button onclick="checkQ2cStep2('correct')" class="w-full text-left p-3 rounded-lg border ${prog.step2 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'}">
-              <strong>B.</strong> <strong>Limonene has the higher boiling point</strong> because its stronger LDFs require <strong>more thermal energy (heat)</strong> to overcome the attractions between molecules and separate them into a gas.
+              <strong>B.</strong> Limonene has the higher boiling point because its stronger LDFs require more thermal energy (heat) to overcome the attractions between molecules and separate them into a gas.
             </button>
           </div>
           <div id="q2c_fb2"></div>
@@ -1414,7 +1417,7 @@
           <h4 class="font-bold text-sm text-slate-900 mb-2">Step 1 of 2: In "At-Home Cold Extraction," orange peels are heated in warm water (43&ndash;49&deg;C) before pressing. What does heating do to the particles?</h4>
           <div class="space-y-2 my-3 text-xs sm:text-sm">
             <button onclick="checkQ3aStep1('correct')" class="w-full text-left p-3 rounded-lg border ${prog.step1 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'}">
-              <strong>A.</strong> Heating adds thermal energy, which <strong>increases the kinetic energy and movement of the particles</strong>, weakening/disrupting the intermolecular forces (IMFs) holding the limonene oil inside the orange peel.
+              <strong>A.</strong> Heating adds thermal energy, which increases the kinetic energy and movement of the particles, weakening/disrupting the intermolecular forces (IMFs) holding the limonene oil inside the orange peel.
             </button>
             <button onclick="checkQ3aStep1('wrong')" class="w-full text-left p-3 rounded-lg border border-slate-300 hover:bg-indigo-50">
               <strong>B.</strong> Heating to 45&deg;C boils the water into steam and breaks the covalent C-C bonds inside limonene.
@@ -1700,7 +1703,7 @@
               </button>
             </div>
             <p class="font-bold text-slate-900">Particulate Gas Sample (15 Total Particles):</p>
-            <p><strong>7 Nitrogen ($\text{N}_2$)</strong>, <strong>3 Oxygen ($\text{O}_2$)</strong>, <strong>4 Ethanol</strong>, and <strong>1 Limonene</strong>.</p>
+            <p><strong>7 Nitrogen (N<sub>2</sub>)</strong>, <strong>3 Oxygen (O<sub>2</sub>)</strong>, <strong>4 Ethanol</strong>, and <strong>1 Limonene</strong>.</p>
             <p class="p-2.5 rounded-lg bg-indigo-100 text-indigo-950 font-semibold">
               In your gas sample, the partial pressure of the <strong>7 Nitrogen particles</strong> is <strong class="underline">${mp.n2Pressure} atm</strong>.
             </p>
@@ -1794,7 +1797,7 @@
           <h4 class="font-bold text-sm text-slate-900 mb-2">Step 1 of 2: What happens during <strong>Distillation</strong> (separating water from Coke or limonene from peels)?</h4>
           <div class="space-y-2 my-3 text-xs sm:text-sm">
             <button onclick="checkQ4aStep1('correct')" class="w-full text-left p-3 rounded-lg border ${prog.step1 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'}">
-              <strong>A.</strong> Distillation is a <strong>physical separation process</strong> that uses heat and boiling point differences to break <strong>intermolecular forces (IMFs)</strong> between molecules without changing the molecules themselves.
+              <strong>A.</strong> Distillation is a physical separation process that uses heat and boiling point differences to break intermolecular forces (IMFs) between molecules without changing the molecules themselves.
             </button>
             <button onclick="checkQ4aStep1('wrong')" class="w-full text-left p-3 rounded-lg border border-slate-300 hover:bg-indigo-50">
               <strong>B.</strong> Distillation breaks intramolecular covalent bonds inside water molecules to make H<sub>2</sub> and O<sub>2</sub> gas.
@@ -1810,7 +1813,7 @@
               <strong>A.</strong> Electrolysis uses electricity to gently warm molecules and break IMFs.
             </button>
             <button onclick="checkQ4aStep2('correct')" class="w-full text-left p-3 rounded-lg border ${prog.step2 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'}">
-              <strong>B.</strong> Electrolysis is a <strong>chemical change</strong> that uses electrical energy to break <strong>intramolecular covalent bonds</strong> within a molecule (e.g., splitting H<sub>2</sub>O into H<sub>2</sub> and O<sub>2</sub>).
+              <strong>B.</strong> Electrolysis is a chemical change that uses electrical energy to break intramolecular covalent bonds within a molecule (e.g., splitting H<sub>2</sub>O into H<sub>2</sub> and O<sub>2</sub>).
             </button>
           </div>
           <div id="q4a_fb2"></div>
@@ -1854,7 +1857,7 @@
           <h4 class="font-bold text-sm text-slate-900 mb-2">Step 2 of 2: How do the R<sub>f</sub> values tell you which dye is more polar?</h4>
           <div class="space-y-2 my-3 text-xs sm:text-sm">
             <button onclick="checkQ4bStep2('correct')" class="w-full text-left p-3 rounded-lg border ${prog.step2 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'}">
-              <strong>A.</strong> A <strong>higher R<sub>f</sub> value</strong> means the dye traveled farther up the paper with the polar water mobile phase. Because "like attracts like," a higher R<sub>f</sub> means the dye is <strong>more polar</strong> (more strongly attracted to polar water).
+              <strong>A.</strong> A higher R<sub>f</sub> value means the dye traveled farther up the paper with the polar water mobile phase. Because "like attracts like," a higher R<sub>f</sub> means the dye is more polar (more strongly attracted to polar water).
             </button>
             <button onclick="checkQ4bStep2('wrong')" class="w-full text-left p-3 rounded-lg border border-slate-300 hover:bg-indigo-50">
               <strong>B.</strong> A higher R<sub>f</sub> value means the dye has a higher boiling point and is nonpolar.
@@ -1937,7 +1940,7 @@
             <button onclick="checkQ5PCl3Step3('C')" class="p-3 rounded-lg border border-slate-300 hover:bg-indigo-50 text-left">
               <strong>C.</strong> Trigonal Pyramidal & Nonpolar
             </button>
-            <button onclick="checkQ5PCl3Step3('D')" class="p-3 rounded-lg border ${prog.step3 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'} text-left font-bold">
+            <button onclick="checkQ5PCl3Step3('D')" class="p-3 rounded-lg border ${prog.step3 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'} text-left">
               <strong>D.</strong> Trigonal Pyramidal & Polar
             </button>
           </div>
@@ -2004,7 +2007,7 @@
             </button>
             <button onclick="checkQ5CH2OStep2('B')" class="p-3 rounded-xl border ${prog.step2 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'} text-center space-y-2">
               <div class="font-mono text-xs bg-indigo-50 py-3 rounded-lg leading-tight font-bold text-indigo-950">
-                &nbsp;.O.<br/>&nbsp;&nbsp;||<br/>H — C — H
+                &nbsp;:O:<br/>&nbsp;&nbsp;||<br/>H — C — H
               </div>
               <p class="text-xs font-bold text-indigo-900">Structure B (C=O Double Bond + 2 lone pairs on O; full octets!)</p>
             </button>
@@ -2028,7 +2031,7 @@
             <button onclick="checkQ5CH2OStep3('A')" class="p-3 rounded-lg border border-slate-300 hover:bg-indigo-50 text-left">
               <strong>A.</strong> Trigonal Planar & Nonpolar
             </button>
-            <button onclick="checkQ5CH2OStep3('B')" class="p-3 rounded-lg border ${prog.step3 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'} text-left font-bold">
+            <button onclick="checkQ5CH2OStep3('B')" class="p-3 rounded-lg border ${prog.step3 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'} text-left">
               <strong>B.</strong> Trigonal Planar & Polar
             </button>
             <button onclick="checkQ5CH2OStep3('C')" class="p-3 rounded-lg border border-slate-300 hover:bg-indigo-50 text-left">
@@ -2085,7 +2088,7 @@
               <strong>A.</strong> They have the exact same boiling point and physical properties, just drawn differently on paper.
             </button>
             <button onclick="checkQ6aStep1('correct')" class="w-full text-left p-3 rounded-lg border ${prog.step1 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'}">
-              <strong>B.</strong> They have the <strong>same molecular formula</strong> (same exact number and types of atoms: 2 C, 6 H, 1 O), but their atoms are connected in a <strong>different structural bonding arrangement</strong>, giving them <strong>different physical properties</strong> (like boiling points).
+              <strong>B.</strong> They have the same molecular formula (same exact number and types of atoms: 2 C, 6 H, 1 O), but their atoms are connected in a different structural bonding arrangement, giving them different physical properties (like boiling points).
             </button>
           </div>
           <div id="q6a_fb1"></div>
@@ -2109,7 +2112,7 @@
         <div class="p-5 rounded-xl border border-slate-200 bg-white step-unlocked">
           <h4 class="font-bold text-sm text-slate-900 mb-2">Step 1 of 2: Compare the bonds in Ethanol (contains an O-H bond) vs. Dimethyl Ether (only contains C-H and C-O bonds). Which IMF can Ethanol form that Dimethyl Ether CANNOT?</h4>
           <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5 my-3 text-xs sm:text-sm">
-            <button onclick="checkQ6bStep1('HB')" class="p-3 rounded-lg border ${prog.step1 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'} font-bold text-left">
+            <button onclick="checkQ6bStep1('HB')" class="p-3 rounded-lg border ${prog.step1 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'} text-left">
               Hydrogen Bonding (because H is directly bonded to O)
             </button>
             <button onclick="checkQ6bStep1('LDF')" class="p-3 rounded-lg border border-slate-300 hover:bg-indigo-50 text-left">
@@ -2126,7 +2129,7 @@
           <h4 class="font-bold text-sm text-slate-900 mb-2">Step 2 of 2: Which isomer has the higher boiling point and why?</h4>
           <div class="space-y-2 my-3 text-xs sm:text-sm">
             <button onclick="checkQ6bStep2('correct')" class="w-full text-left p-3 rounded-lg border ${prog.step2 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'}">
-              <strong>A.</strong> <strong>Ethanol has a higher boiling point</strong> because its O-H group forms <strong>Hydrogen Bonds</strong>, which are much stronger intermolecular forces than the dipole-dipole/LDFs in dimethyl ether, requiring more heat energy to separate ethanol molecules.
+              <strong>A.</strong> Ethanol has the higher boiling point because its O-H group forms Hydrogen Bonds, which are much stronger intermolecular forces than the dipole-dipole/LDFs in dimethyl ether, requiring more heat energy to separate ethanol molecules.
             </button>
             <button onclick="checkQ6bStep2('wrong')" class="w-full text-left p-3 rounded-lg border border-slate-300 hover:bg-indigo-50">
               <strong>B.</strong> Dimethyl ether has a higher boiling point because C-O-C bonds are in the middle of the molecule.
@@ -2163,7 +2166,7 @@
               <strong>A.</strong> CaCl<sub>2</sub> is nonpolar because the positive and negative charges cancel out, so it dissolves in nonpolar oil.
             </button>
             <button onclick="checkQ7aStep1('correct')" class="w-full text-left p-3 rounded-lg border ${prog.step1 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'}">
-              <strong>B.</strong> Ca<sup>2+</sup> and Cl<sup>-</sup> are <strong>charged ions</strong> (from an ionic compound), <strong>Water is polar</strong> (has partial &delta;<sup>+</sup> and &delta;<sup>-</sup> charges), and <strong>Vegetable oil is nonpolar</strong> (no charges).
+              <strong>B.</strong> Ca<sup>2+</sup> and Cl<sup>-</sup> are charged ions (from an ionic compound), Water is polar (has partial &delta;<sup>+</sup> and &delta;<sup>-</sup> charges), and Vegetable oil is nonpolar (no charges).
             </button>
           </div>
           <div id="q7a_fb1"></div>
@@ -2173,7 +2176,7 @@
           <h4 class="font-bold text-sm text-slate-900 mb-2">Step 2 of 2: Which layer do the Ca<sup>2+</sup> and Cl<sup>-</sup> ions dissolve in, and why?</h4>
           <div class="space-y-2 my-3 text-xs sm:text-sm">
             <button onclick="checkQ7aStep2('water')" class="w-full text-left p-3 rounded-lg border ${prog.step2 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'}">
-              <strong>A.</strong> They dissolve in the <strong>Water layer</strong> because, by "like dissolves like," the full positive and negative charges of Ca<sup>2+</sup> and Cl<sup>-</sup> are strongly attracted to the partial charges (&delta;<sup>-</sup> and &delta;<sup>+</sup>) of polar water molecules.
+              <strong>A.</strong> They dissolve in the Water layer because, by "like dissolves like," the full positive and negative charges of Ca<sup>2+</sup> and Cl<sup>-</sup> are strongly attracted to the partial charges (&delta;<sup>-</sup> and &delta;<sup>+</sup>) of polar water molecules.
             </button>
             <button onclick="checkQ7aStep2('oil')" class="w-full text-left p-3 rounded-lg border border-slate-300 hover:bg-indigo-50">
               <strong>B.</strong> They dissolve in the Vegetable Oil layer.
@@ -2222,7 +2225,7 @@
           <h4 class="font-bold text-sm text-slate-900 mb-2">Step 1 of 2: Describe the two parts of a surfactant molecule:</h4>
           <div class="space-y-2 my-3 text-xs sm:text-sm">
             <button onclick="checkQ7bStep1('correct')" class="w-full text-left p-3 rounded-lg border ${prog.step1 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'}">
-              <strong>A.</strong> A surfactant has a <strong>polar hydrophilic ("water-loving") head</strong> and a <strong>nonpolar hydrophobic ("water-fearing") hydrocarbon tail</strong>.
+              <strong>A.</strong> A surfactant has a polar hydrophilic ("water-loving") head and a nonpolar hydrophobic ("water-fearing") hydrocarbon tail.
             </button>
             <button onclick="checkQ7bStep1('wrong')" class="w-full text-left p-3 rounded-lg border border-slate-300 hover:bg-indigo-50">
               <strong>B.</strong> A surfactant molecule is neither polar nor nonpolar, so it dissolves everything.
@@ -2235,7 +2238,7 @@
           <h4 class="font-bold text-sm text-slate-900 mb-2">Step 2 of 2: How does this dual structure allow polar water and nonpolar oil to mix?</h4>
           <div class="space-y-2 my-3 text-xs sm:text-sm">
             <button onclick="checkQ7bStep2('correct')" class="w-full text-left p-3 rounded-lg border ${prog.step2 ? 'border-emerald-500 bg-emerald-50' : 'border-slate-300 hover:bg-indigo-50'}">
-              <strong>A.</strong> The <strong>nonpolar hydrophobic tails</strong> attract and embed into the <strong>nonpolar oil</strong> droplets, while the <strong>polar hydrophilic heads</strong> face outward and attract the <strong>polar water</strong> molecules, connecting the two substances so they can mix.
+              <strong>A.</strong> The nonpolar hydrophobic tails attract and embed into the nonpolar oil droplets, while the polar hydrophilic heads face outward and attract the polar water molecules, connecting the two substances so they can mix.
             </button>
             <button onclick="checkQ7bStep2('wrong')" class="w-full text-left p-3 rounded-lg border border-slate-300 hover:bg-indigo-50">
               <strong>B.</strong> The hydrophilic heads stick to the oil and the hydrophobic tails stick to the water.
@@ -2569,6 +2572,14 @@
 
     // Initialize on load
     window.onload = function () {
+      // Hidden shortcut for teacher: Ctrl+Shift+S opens Google Sheet URL config
+      window.addEventListener('keydown', function (e) {
+        if (e.ctrlKey && e.shiftKey && (e.key === 'S' || e.key === 's')) {
+          e.preventDefault();
+          toggleScriptUrlModal();
+        }
+      });
+
       const restored = loadProgressFromStorage();
       if (restored) {
         document.getElementById('studentNameInput').value = appState.studentName || '';
