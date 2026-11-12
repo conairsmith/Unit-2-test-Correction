@@ -155,7 +155,7 @@
         <div class="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-slate-100">
           <div>
             <label for="studentNameInput" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
-              Your Full Name *
+              Your First Name *
             </label>
             <input
               id="studentNameInput"
@@ -232,8 +232,13 @@
 
         <!-- Start Button Footer -->
         <div class="mt-8 pt-6 border-t border-slate-200 flex flex-wrap items-center justify-between gap-4">
-          <div id="selectionSummaryText" class="text-sm font-semibold text-slate-700">
-            0 questions selected for correction.
+          <div class="space-y-1">
+            <div id="selectionSummaryText" class="text-sm font-semibold text-slate-700">
+              0 questions selected for correction.
+            </div>
+            <button type="button" onclick="clearSavedProgress()" class="text-xs text-slate-400 hover:text-rose-600 underline">
+              Reset / Start Fresh (Clear Saved Progress)
+            </button>
           </div>
           <button
             onclick="startCorrections()"
@@ -532,6 +537,73 @@
     });
 
     // =========================================================================
+    // 1b. LOCALSTORAGE AUTO-SAVE SYSTEM (PREVENTS WORK LOSS)
+    // =========================================================================
+    const STORAGE_KEY = 'chem_u2_student_progress_v1';
+
+    function saveProgressToStorage() {
+      try {
+        const dataToSave = {
+          studentName: appState.studentName,
+          studentSection: appState.studentSection,
+          paperScore: appState.paperScore,
+          seedCode: appState.seedCode,
+          mathSalt: appState.mathSalt,
+          selectedIds: appState.selectedIds,
+          activeQuestionId: appState.activeQuestionId,
+          mathParams: appState.mathParams,
+          progress: appState.progress,
+          savedAt: new Date().toISOString()
+        };
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
+      } catch (e) {
+        console.warn('Auto-save error:', e);
+      }
+    }
+
+    function loadProgressFromStorage() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        if (!raw) return false;
+        const saved = JSON.parse(raw);
+        if (saved && saved.progress) {
+          appState.studentName = saved.studentName || '';
+          appState.studentSection = saved.studentSection || 'G9 Pre-AP Chemistry';
+          appState.paperScore = saved.paperScore || '';
+          appState.seedCode = saved.seedCode || appState.seedCode;
+          appState.mathSalt = saved.mathSalt || 0;
+          if (Array.isArray(saved.selectedIds)) appState.selectedIds = saved.selectedIds;
+          if (saved.mathParams) appState.mathParams = saved.mathParams;
+          if (saved.activeQuestionId) appState.activeQuestionId = saved.activeQuestionId;
+          
+          QUESTIONS_META.forEach(q => {
+            if (saved.progress[q.id]) {
+              appState.progress[q.id] = Object.assign(appState.progress[q.id], saved.progress[q.id]);
+            }
+          });
+          return true;
+        }
+      } catch (e) {
+        console.warn('Load progress error:', e);
+      }
+      return false;
+    }
+
+    function clearSavedProgress() {
+      if (confirm('Are you sure you want to reset your saved progress and start over?')) {
+        localStorage.removeItem(STORAGE_KEY);
+        location.reload();
+      }
+    }
+
+    function autoSaveDraftReflection(qId, val) {
+      if (appState.progress[qId]) {
+        appState.progress[qId].reflection = val;
+        saveProgressToStorage();
+      }
+    }
+
+    // =========================================================================
     // 2. SEED GENERATOR & ANTI-COPY MATH RANDOMIZER
     // =========================================================================
     function computeHash(str) {
@@ -670,6 +742,7 @@
         );
       }
       renderSetupGrid();
+      saveProgressToStorage();
     }
 
     function selectPreset(mode) {
@@ -681,12 +754,13 @@
         appState.selectedIds = [];
       }
       renderSetupGrid();
+      saveProgressToStorage();
     }
 
     function startCorrections() {
       const nameInput = document.getElementById('studentNameInput').value.trim();
       if (!nameInput) {
-        showToast('Please enter your Full Name before starting.', '⚠️');
+        showToast('Please enter your First Name before starting.', '⚠️');
         document.getElementById('studentNameInput').focus();
         return;
       }
@@ -694,6 +768,7 @@
       appState.studentSection = document.getElementById('studentSectionInput').value;
       appState.paperScore = document.getElementById('paperScoreInput').value.trim();
       generateMathParamsFromName(nameInput);
+      saveProgressToStorage();
 
       if (appState.selectedIds.length === 0) {
         showToast('No missed questions selected! Opening your Retest/Mastery Ticket.', '🎉');
@@ -975,7 +1050,8 @@
             <textarea
               id="reflectionInput"
               rows="3"
-              placeholder=""
+              oninput="autoSaveDraftReflection('${qId}', this.value)"
+              placeholder="Explain what mistake you originally made on paper and why the corrected answer makes sense..."
               class="w-full p-3 rounded-xl border border-slate-300 bg-white text-sm focus:border-indigo-600 focus:ring-2 focus:ring-indigo-100 outline-none"
             >${prog.reflection || ''}</textarea>
             <div class="mt-3 flex flex-wrap items-center justify-between gap-3">
@@ -1031,6 +1107,7 @@
         if (recordText) {
           appState.progress[qId].records[stepKey] = recordText;
         }
+        saveProgressToStorage();
         setTimeout(() => renderActiveQuestion(), 650);
       } else {
         fbEl.className = 'mt-3 p-3 rounded-xl bg-rose-50 border border-rose-200 text-rose-900 text-xs sm:text-sm font-medium';
@@ -1047,6 +1124,7 @@
       }
       appState.progress[qId].reflection = text;
       appState.progress[qId].completed = true;
+      saveProgressToStorage();
       updateGlobalProgressUI();
       renderSidebarList();
 
@@ -1383,7 +1461,7 @@
           <p class="text-xs text-slate-500 mb-3">Since the passage ratio is in milligrams (150 mg), we must match units first (1 g = 1000 mg).</p>
           <div class="flex flex-wrap items-center gap-3">
             <span class="text-sm font-mono font-bold">${mp.oilGrams} g × 1000 =</span>
-            <input id="q3b_s1" type="number" step="any" value="${prog.step1 ? mp.oilMg : ''}" placeholder="" class="px-3 py-2 rounded-lg border border-slate-300 text-sm font-mono w-36"/>
+            <input id="q3b_s1" type="number" step="any" onkeydown="if(event.key==='Enter') checkQ3bStep1()" value="${prog.step1 ? mp.oilMg : ''}" placeholder="" class="px-3 py-2 rounded-lg border border-slate-300 text-sm font-mono w-36"/>
             <span class="text-sm font-bold text-slate-700">mg of oil</span>
             <button onclick="checkQ3bStep1()" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold">Verify Step 1</button>
           </div>
@@ -1396,7 +1474,7 @@
           <p class="text-xs text-slate-500 mb-3">Passage ratio: Every 150 mg of oil requires 15 g of peel (which simplifies to 10 mg oil per 1 g peel).</p>
           <div class="flex flex-wrap items-center gap-3">
             <span class="text-sm font-mono font-bold">(${mp.oilMg} mg oil ÷ 150 mg) × 15 g peel =</span>
-            <input id="q3b_s2" type="number" step="any" value="${prog.step2 ? mp.totalPeelGrams : ''}" placeholder="" class="px-3 py-2 rounded-lg border border-slate-300 text-sm font-mono w-36"/>
+            <input id="q3b_s2" type="number" step="any" onkeydown="if(event.key==='Enter') checkQ3bStep2()" value="${prog.step2 ? mp.totalPeelGrams : ''}" placeholder="" class="px-3 py-2 rounded-lg border border-slate-300 text-sm font-mono w-36"/>
             <span class="text-sm font-bold text-slate-700">g of peel</span>
             <button onclick="checkQ3bStep2()" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold">Verify Step 2</button>
           </div>
@@ -1409,7 +1487,7 @@
           <p class="text-xs text-slate-500 mb-3">Each large orange provides <strong>${mp.peelMassPerOrange} g</strong> of peel. Divide total peel mass by ${mp.peelMassPerOrange} g/orange (round to 2 decimal places):</p>
           <div class="flex flex-wrap items-center gap-3">
             <span class="text-sm font-mono font-bold">${mp.totalPeelGrams} g ÷ ${mp.peelMassPerOrange} g/orange =</span>
-            <input id="q3b_s3" type="number" step="any" value="${prog.step3 ? mp.exactOranges : ''}" placeholder="" class="px-3 py-2 rounded-lg border border-slate-300 text-sm font-mono w-36"/>
+            <input id="q3b_s3" type="number" step="any" onkeydown="if(event.key==='Enter') checkQ3bStep3()" value="${prog.step3 ? mp.exactOranges : ''}" placeholder="" class="px-3 py-2 rounded-lg border border-slate-300 text-sm font-mono w-36"/>
             <span class="text-sm font-bold text-slate-700">oranges</span>
             <button onclick="checkQ3bStep3()" class="px-4 py-2 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold">Verify Step 3</button>
           </div>
@@ -2390,7 +2468,7 @@
       }
 
       if (!appState.studentName || appState.studentName.trim() === '') {
-        showToast('Please enter your full name before submitting.', '⚠️');
+        showToast('Please enter your first name before submitting.', '⚠️');
         switchView('setup');
         return;
       }
@@ -2491,8 +2569,17 @@
 
     // Initialize on load
     window.onload = function () {
-      generateMathParamsFromName('Preview');
-      renderSetupGrid();
+      const restored = loadProgressFromStorage();
+      if (restored) {
+        document.getElementById('studentNameInput').value = appState.studentName || '';
+        document.getElementById('studentSectionInput').value = appState.studentSection || 'G9 Pre-AP Chemistry';
+        document.getElementById('paperScoreInput').value = appState.paperScore || '';
+        renderSetupGrid();
+        showToast('Resumed your saved progress!', '💾');
+      } else {
+        generateMathParamsFromName('Preview');
+        renderSetupGrid();
+      }
     };
   </script>
 </body>
